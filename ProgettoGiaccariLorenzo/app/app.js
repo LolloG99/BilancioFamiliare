@@ -123,6 +123,16 @@ app.get("/api/budget/:year", verify, (req, res) => {
 app.get("/api/budget/:year/:month", verify, async (req, res) => {
   //TODO
 });
+// GET /budget/:year/:month/:id - to access the corresponding html page
+app.get("/budget/:year/:month/:id", verify, async (req, res) => {
+  try {
+    const data = await fs.readFile(`${__dirname}/public/expense.html`, {encoding: `utf8`});
+    res.send(data);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 // GET /api/budget/:year/:month/:id - logged user's expense of chosen id in the chosen year and month
 app.get("/api/budget/:year/:month/:id", verify, async (req, res) => {
   const client = new MongoClient(uri);
@@ -161,13 +171,39 @@ app.post("/api/budget/:year/:month", verify, async (req, res) => {
 });
 
 // PUT /api/budget/:year/:month/:id - edit logged user's expense of chosen id in the chosen year and month
-app.put("/api/budget/:year/:month/:id", verify, (req, res) => {
-  //TODO
+app.put("/api/budget/:year/:month/:id", verify, async (req, res) => {
+  const client = new MongoClient(uri);
+  await client.connect();
+  const expenses = client.db("expenses");
+
+  const filter = { _id: new ObjectId(req.params.id)};
+  const updateEl = {
+    $set: {
+      description : 'This description has been modified successfully!'
+    }
+  }
+  try {
+    await expenses.collection("expenses").updateOne(filter, updateEl);
+    res.json({message: 'Test expense modified successfully! :)'});
+  } catch (err) {
+    console.log(err);
+  }
 });
+
 // DELETE /api/budget/:year/:month/:id - remove logged user's expense of chosen id in the chosen year and month
-app.delete("/api/budget/:year/:month/:id", verify, (req, res) => {
-  //TODO
+app.delete("/api/budget/:year/:month/:id", verify, async (req, res) => {
+  const client = new MongoClient(uri);
+  await client.connect();
+  const expenses = client.db("expenses");
+
+  try {
+    await expenses.collection("expenses").deleteOne({"_id" : new ObjectId(req.params.id)});
+    res.json({message: 'Test expense deleted successfully! >:)'});
+  } catch (err) {
+    console.log(err);
+  }
 });
+
 // GET /api/balance - visualize give/take summary of logged user
 app.get("/api/balance", verify, (req, res) => {
   //TODO

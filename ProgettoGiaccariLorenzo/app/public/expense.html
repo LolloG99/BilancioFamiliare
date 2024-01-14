@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Chosen Expense</title>
+    <script src="../../../assets/js/expense.js" defer></script>
+    <style>
+        * {
+            font-family: 'Courier New', Courier, monospace;
+            color: rgb(6, 6, 66);
+        }
+    </style>
+</head>
+<body>
+    <table id="expense_table">
+        <tr>
+            <th>Data</th>
+            <th>Descrizione</th>
+            <th>Categoria</th>
+            <th>Costo Totale</th>
+            <th>Utenti</th>
+        </tr>
+    </table>
+
+    <form id="expense_modify" action="javascript:modifyExpense()">
+        <input type="submit" value="Modifica"/>
+    </form>
+    <form id="expense_delete" action="javascript:deleteExpense()">
+        <input type="submit" value="Elimina"/>
+    </form>
+</body>
+</html>
