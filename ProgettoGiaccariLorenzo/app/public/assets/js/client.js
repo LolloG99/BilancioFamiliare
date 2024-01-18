@@ -1,9 +1,11 @@
+// Adds rows to the table-list of expenses
 getExpenses().then(expenses => {
     expenses.forEach(expense => {
         addExpense(expense);
     });
 });
 
+// Adds a row to the table-list of expenses
 function addExpense(expense) {
     const table = document.querySelector("#expenses_list");
     const tr = document.createElement("tr");
@@ -12,7 +14,8 @@ function addExpense(expense) {
     const category = document.createElement("td");
     const total_cost = document.createElement("td");
     const a = document.createElement("a");
-    a.href = `/budget/2024/01/${expense._id}`;
+    const parts = expense.date.split("-");
+    a.href = `/budget/${parts[2]}/${parts[1]}/${expense._id}`; //parts[2] is year, parts[1] is month, parts[0] is day
     a.innerText = expense.date;
     date.appendChild(a);
     description.innerText = expense.description;
@@ -25,6 +28,7 @@ function addExpense(expense) {
     tr.appendChild(total_cost);
 }
 
+// Takes all expenses of a single users using api
 async function getExpenses() {
     const response = await fetch("/api/budget");
     const expenses = await response.json();

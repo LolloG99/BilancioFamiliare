@@ -10,7 +10,7 @@ const app = express(); // build app
 
 app.use(express.static(`${__dirname}/public`)); // resolve the public folder from any request
 app.use(express.urlencoded());
-//app.use(express.json()); //for jwt approach
+app.use(express.json()); //for jwt approach
 app.use(
   session({
     secret: "keyword",
@@ -110,11 +110,33 @@ app.get("/api/restricted", verify, (req, res) => {
 app.get("/api/budget", verify, async (req, res) => {
   const client = new MongoClient(uri);
   await client.connect();
-  const exps = client.db("expenses")
+  const exps = client.db("expenses");
 
-  let expenses = await exps.collection("expenses").find().toArray();
+  const username = req.session.user.username;
+  var query = {};
+  query['users.' + username] = {$exists: true};
+
+  let expenses = await exps.collection("expenses").find(query).toArray();
   res.json(expenses);
 });
+
+// Fetches whoami.html page
+app.get("/budget/whoami", verify, async (req, res) => {
+  try {
+    const data = await fs.readFile(`${__dirname}/public/whoami.html`, {encoding: `utf8`});
+    res.send(data);
+  } catch (err) {
+    console.log(err);
+  }
+})
+
+// GET /api/budget/whoami - if authenticated, returns logged user's info
+// Needs to be put before /api/budget/:year because otherwise that function will treat "whoami" as its year parameter
+app.get("/api/budget/whoami", verify, async (req, res) => {
+  const user = req.session.user;
+  res.json(user);
+});
+
 // GET /api/budget/:year - logged user's expenses in the chosen year
 app.get("/api/budget/:year", verify, (req, res) => {
   //TODO
@@ -143,6 +165,16 @@ app.get("/api/budget/:year/:month/:id", verify, async (req, res) => {
   res.json(expense);
 });
 
+// GET /create-expense - html page to let logged user to add a new expense
+app.get("/create-expense", verify, async (req, res) => {
+  try {
+    const data = await fs.readFile(`${__dirname}/public/createExpense.html`, {encoding: `utf8`});
+    res.send(data);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 // POST /api/budget/:year/:month - Adding logged user's expense in the chosen year and month
 app.post("/api/budget/:year/:month", verify, async (req, res) => {
   const client = new MongoClient(uri);
@@ -151,13 +183,13 @@ app.post("/api/budget/:year/:month", verify, async (req, res) => {
   const expenses = client.db("expenses");
 
   new_expense = { //temporary
-    date: '28-01-2024', //dd-mm-yyyy
-    description: 'A dummy expense to test code',
-    category: 'dinner',
-    total_cost: 240.50, //float
+    date: req.body.day + "-" + req.params.month + "-" + req.params.year, //'28-01-2024', //dd-mm-yyyy
+    description: req.body.description, //'A dummy expense to test code',
+    category: req.body.category, //'dinner',
+    total_cost: req.body.total_cost, //240.50, //float
     users: {
-      lollo: 120.20,
-      johnci: 120.30
+      lollo: req.body.total_cost/2,
+      johnci: req.body.total_cost/2
     }
   };
 
@@ -216,10 +248,7 @@ app.get("/api/balance/:id", verify, (req, res) => {
 app.get("/api/budget/search?q=query", verify, (req, res) => {
   //TODO
 });
-// GET /api/budget/whoami - if authenticated, returns logged user's info
-app.get("/api/budget/whoami", verify, (req, res) => {
-  //TODO
-});
+
 // GET /api/users/search?q=query - searches user that matches query string
 app.get("/api/users/search?q=query", verify, (req, res) => {
   //TODO, it might not need verify middleware, it's a design choice!
