@@ -15,8 +15,8 @@ function addExpense(expense) {
     const total_cost = document.createElement("td");
     const a = document.createElement("a");
     const parts = expense.date.split("-");
-    a.href = `/budget/${parts[2]}/${parts[1]}/${expense._id}`; //parts[2] is year, parts[1] is month, parts[0] is day
-    a.innerText = expense.date;
+    a.href = `/budget/${parts[0]}/${parts[1]}/${expense._id}`; //parts[0] is year, parts[1] is month, parts[2] is day
+    a.innerText = `${parts[2]}-${parts[1]}-${parts[0]}`//Mostra la data come giorno-mese-anno //expense.date;
     date.appendChild(a);
     description.innerText = expense.description;
     category.innerText = expense.category;

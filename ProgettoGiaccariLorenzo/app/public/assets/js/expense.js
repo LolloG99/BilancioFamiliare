@@ -1,4 +1,4 @@
-// .js file that handles creation, modification, deletion and visualization of a single expense
+// .js file that handles modification, deletion and visualization of a single expense
 
 const url = window.location.href;
 const parts = url.split("/");
@@ -15,7 +15,7 @@ getExpense().then((expense) => {
   const category = document.createElement("td");
   const total_cost = document.createElement("td");
   const users = document.createElement("td");
-  date.innerText = expense.date;
+  date.innerText = expense.date.split("-")[2] + "-" + m + "-" + y;
   description.innerText = expense.description;
   category.innerText = expense.category;
   total_cost.innerText = expense.total_cost;
@@ -30,29 +30,6 @@ getExpense().then((expense) => {
   tr.appendChild(total_cost);
   tr.appendChild(users);
 });
-
-// Calls api to create a new expense with chosen values
-async function createExpense() {
-  const year = document.getElementById("year").value;
-  const month = document.getElementById("month").value;
-  const body_html = {
-    day: document.getElementById("day").value,
-    description: document.getElementById("description").value,
-    category: document.getElementById("category").value,
-    total_cost: document.getElementById("total-cost").value,
-    users: {
-    }
-  };
-  const biguserdiv = document.getElementById("biguserdiv");
-  await fetch(`/api/budget/${year}/${month}`, {
-    method: "POST",
-    headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-    },
-    body: JSON.stringify(body_html)
-  });
-}
 
 // Gets from api a specific expense using id
 async function getExpense() {

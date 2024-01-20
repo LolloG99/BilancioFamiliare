@@ -1,39 +1,77 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Aggiungi Spesa</title>
-        <script src="../../../assets/js/expense.js" defer></script>
-    </head>
-    <body>
-        <form id="create_expense_form" action="javascript:createExpense()">
-            <label for="year">Anno:</label>
-            <input type="text" name="year" id="year"/><br>
-            <label for="month">Mese:</label>
-            <input type="text" name="month" id="month"/><br>
-            <label for="day">Giorno:</label>
-            <input type="text" name="day" id="day"/><br>
-            <label for="description">Descrizione:</label>
-            <input type="text" name="description" id="description"/><br>
-            <label for="category">Categoria:</label>
-            <input type="text" name="category" id="category"/><br>
-            <label for="total-cost">Costo Totale:</label>
-            <input type="number" step="0.01" name="total-cost" id="total-cost"/><br>
-            <div id="biguserdiv"><div id="userdiv1"><label for="user1">Utente e la sua parte di spesa:</label>
-            <input type="text" name="user1" id="user1"/>
-            <input type="text" name="part1" id="part1"/><br></div></div>
-            <input type="submit" value="Aggiungi Spesa!"/>
-        </form>
-        <button onclick="new_userdiv()" id="userdivbutton">Add user to the expense</button>
-        <br><br>
-    </body>
-    <script>
-        let el = document.querySelector('#userdiv1');
-        let i = 1;
 
-        function new_userdiv() {
-            let clone = el.cloneNode(true);
-            clone.id = 'userdiv' + toString(i);
-            el.after(clone);
-        }
-    </script>
+<head>
+    <title>Aggiungi Spesa</title>
+    <script src="../assets/js/createExpense.js" defer></script>
+</head>
+
+<body>
+    <form id="create_expense_form">
+        <label for="date">Data:</label>
+        <input type="date" name="date" id="date" /><br>
+        <label for="description">Descrizione:</label>
+        <input type="text" name="description" id="description" /><br>
+        <label for="category">Categoria:</label>
+        <input type="text" name="category" id="category" /><br>
+        <label for="total_cost">Costo Totale:</label>
+        <input type="number" step="0.01" name="total_cost" id="total_cost" /><br>
+        <div id="users">
+            <div id="user_info_1">
+                <label for="user1">Utente:</label>
+                <input type="text" name="user1" id="user1" class="user"/>
+                <label for="part1">Parte di spesa dell'utente:</label>
+                <input type="number" step="0.01" name="part1" id="part1" class="part"/><br>
+            </div>
+        </div>
+        <br>
+        <input type="submit" value="Aggiungi Spesa!" />
+    </form>
+    <!--<button onclick="new_user_info()" id="userdivbutton">Aggiungi utente alla spesa</button>-->
+    <br>
+    <div id="error_message"></div>
+    <a href="/">GO BACK HOME</a>
+</body>
+<script>
+    // This script handles the dynamic behavior of the users div's children
+    let i = 1;
+
+    let user_info_1 = document.querySelector("#user_info_1")
+    // When user_info_1 is clicked on, it creates a new clone of itself
+    user_info_1.addEventListener("click", function() {new_user_info()}, {once : true})
+    // user_info_1 begins with the current user's username
+    getUser().then(current_user => {
+        user_info_1.children[1].setAttribute("value", current_user.username);
+    });
+    // user_info_1 updates dynamically its part when total_cost is modified
+    let total_cost = document.querySelector("#total_cost")
+    total_cost.addEventListener("input", () => {
+        user_info_1.children[3].setAttribute("value", total_cost.value);
+    });
+
+    function new_user_info() {
+        const user_info_id = '#user_info_' + i;
+        let el = document.querySelector(user_info_id);
+        let clone = el.cloneNode(true);
+        i++;
+        clone.id = 'user_info_' + i;
+        clone.children[0].htmlFor = "user" + i; // Label user
+        clone.children[1].id = "user" + i; // Textinput user
+        clone.children[1].name = "user" + i;
+        clone.children[1].setAttribute("value", "");
+        clone.children[2].htmlFor = "part" + i; // Label part
+        clone.children[3].id = "part" + i; // Numberinput part
+        clone.children[3].name = "part" + i;
+        clone.children[3].setAttribute("value", "");
+        el.after(clone);
+        clone.addEventListener("click", function() {new_user_info()}, {once : true})
+    }
+
+    // Gets from api the current user
+    async function getUser() {
+        const response = await fetch(`/api/budget/whoami`);
+        const user = await response.json();
+        return user;
+    }
+</script>
 </html>

@@ -1,4 +1,5 @@
 const express = require("express"); //load express
+const bodyParser = require("body-parser");
 const fs = require("fs/promises");
 const { MongoClient, ObjectId } = require("mongodb");
 const session = require("express-session");
@@ -7,10 +8,13 @@ const session = require("express-session");
 const uri = "mongodb://mongohost";
 const app = express(); // build app
 
-
 app.use(express.static(`${__dirname}/public`)); // resolve the public folder from any request
 app.use(express.urlencoded());
-app.use(express.json()); //for jwt approach
+app.use(express.json());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 app.use(
   session({
     secret: "keyword",
@@ -21,7 +25,9 @@ app.use(
 // Register page
 app.get("/api/auth/signup", async (req, res) => {
   try {
-    const data = await fs.readFile(`${__dirname}/public/register.html`, {encoding: `utf8`});
+    const data = await fs.readFile(`${__dirname}/public/register.html`, {
+      encoding: `utf8`,
+    });
     res.send(data);
   } catch (err) {
     console.log(err);
@@ -38,16 +44,20 @@ app.post("/api/auth/signup", async (req, res) => {
     username: req.body.username,
     password: req.body.password,
     name: req.body.name,
-    surname: req.body.surname
+    surname: req.body.surname,
   };
   try {
-    const same_user = await users.collection("users").findOne({ username: new_user.username });
+    const same_user = await users
+      .collection("users")
+      .findOne({ username: new_user.username });
     if (!same_user) {
       const db_user = await users.collection("users").insertOne(new_user);
       req.session.user = new_user;
       res.redirect("/api/restricted");
     } else {
-        res.status(403).send("Username già presente, per favore sceglierne un altro");
+      res
+        .status(403)
+        .send("Username già presente, per favore sceglierne un altro");
     }
   } catch (err) {
     console.log(err);
@@ -57,7 +67,9 @@ app.post("/api/auth/signup", async (req, res) => {
 // Login page
 app.get("/api/auth/signin", async (req, res) => {
   try {
-    const data = await fs.readFile(`${__dirname}/public/login.html`, {encoding: `utf8`});
+    const data = await fs.readFile(`${__dirname}/public/login.html`, {
+      encoding: `utf8`,
+    });
     res.send(data);
   } catch (err) {
     console.log(err);
@@ -69,7 +81,9 @@ app.post("/api/auth/signin", async (req, res) => {
   const client = new MongoClient(uri);
   await client.connect();
   const users = client.db("users");
-  const db_user = await users.collection("users").findOne({ username: req.body.username });
+  const db_user = await users
+    .collection("users")
+    .findOne({ username: req.body.username });
 
   /*
     db_user = { //temporary
@@ -79,11 +93,12 @@ app.post("/api/auth/signin", async (req, res) => {
         surname: 'Giaccari'
     }*/
 
-  if (db_user && db_user.password === req.body.password) { //"if db_user" because if db_user is null code crashes
+  if (db_user && db_user.password === req.body.password) {
+    //"if db_user" because if db_user is null code crashes
     //generateAccessToken(db_user); //for jwt approach
     req.session.user = db_user;
     //res.redirect("/api/restricted");
-    res.redirect("/index.html")
+    res.redirect("/index.html");
   } else {
     res.status(403).send("Non autenticato :(");
   }
@@ -114,21 +129,23 @@ app.get("/api/budget", verify, async (req, res) => {
 
   const username = req.session.user.username;
   var query = {};
-  query['users.' + username] = {$exists: true};
+  query["users." + username] = { $exists: true };
 
-  let expenses = await exps.collection("expenses").find(query).toArray();
+  let expenses = await exps.collection("expenses").find(/* query */).toArray();
   res.json(expenses);
 });
 
 // Fetches whoami.html page
 app.get("/budget/whoami", verify, async (req, res) => {
   try {
-    const data = await fs.readFile(`${__dirname}/public/whoami.html`, {encoding: `utf8`});
+    const data = await fs.readFile(`${__dirname}/public/whoami.html`, {
+      encoding: `utf8`,
+    });
     res.send(data);
   } catch (err) {
     console.log(err);
   }
-})
+});
 
 // GET /api/budget/whoami - if authenticated, returns logged user's info
 // Needs to be put before /api/budget/:year because otherwise that function will treat "whoami" as its year parameter
@@ -148,7 +165,9 @@ app.get("/api/budget/:year/:month", verify, async (req, res) => {
 // GET /budget/:year/:month/:id - to access the corresponding html page
 app.get("/budget/:year/:month/:id", verify, async (req, res) => {
   try {
-    const data = await fs.readFile(`${__dirname}/public/expense.html`, {encoding: `utf8`});
+    const data = await fs.readFile(`${__dirname}/public/expense.html`, {
+      encoding: `utf8`,
+    });
     res.send(data);
   } catch (err) {
     console.log(err);
@@ -161,14 +180,18 @@ app.get("/api/budget/:year/:month/:id", verify, async (req, res) => {
   await client.connect();
   const exps = client.db("expenses");
 
-  let expense = await exps.collection("expenses").findOne({"_id" : new ObjectId(req.params.id)});
+  let expense = await exps
+    .collection("expenses")
+    .findOne({ _id: new ObjectId(req.params.id) });
   res.json(expense);
 });
 
 // GET /create-expense - html page to let logged user to add a new expense
 app.get("/create-expense", verify, async (req, res) => {
   try {
-    const data = await fs.readFile(`${__dirname}/public/createExpense.html`, {encoding: `utf8`});
+    const data = await fs.readFile(`${__dirname}/public/createExpense.html`, {
+      encoding: `utf8`,
+    });
     res.send(data);
   } catch (err) {
     console.log(err);
@@ -179,27 +202,26 @@ app.get("/create-expense", verify, async (req, res) => {
 app.post("/api/budget/:year/:month", verify, async (req, res) => {
   const client = new MongoClient(uri);
   await client.connect();
-  //const users = client.db("users");
   const expenses = client.db("expenses");
 
-  new_expense = { //temporary
-    date: req.body.day + "-" + req.params.month + "-" + req.params.year, //'28-01-2024', //dd-mm-yyyy
+  new_expense = {
+    //temporary
+    date: req.body.date, //'2024-01-28', //yyyy-mm-dd
     description: req.body.description, //'A dummy expense to test code',
     category: req.body.category, //'dinner',
     total_cost: req.body.total_cost, //240.50, //float
-    users: {
-      lollo: req.body.total_cost/2,
-      johnci: req.body.total_cost/2
-    }
+    users: req.body.users /*{
+      lollo: req.body.total_cost / 2,
+      johnci: req.body.total_cost / 2,
+    },*/
   };
 
   try {
     const db_expense = await expenses.collection("expenses").insertOne(new_expense);
-    res.json({message: 'Test expense added successfully! :)'})
+    res.status(201).json({ message: "Test expense added successfully! :)" });
   } catch (err) {
     console.log(err);
   }
-
 });
 
 // PUT /api/budget/:year/:month/:id - edit logged user's expense of chosen id in the chosen year and month
@@ -208,15 +230,15 @@ app.put("/api/budget/:year/:month/:id", verify, async (req, res) => {
   await client.connect();
   const expenses = client.db("expenses");
 
-  const filter = { _id: new ObjectId(req.params.id)};
+  const filter = { _id: new ObjectId(req.params.id) };
   const updateEl = {
     $set: {
-      description : 'This description has been modified successfully!'
-    }
-  }
+      description: "This description has been modified successfully!",
+    },
+  };
   try {
     await expenses.collection("expenses").updateOne(filter, updateEl);
-    res.json({message: 'Test expense modified successfully! :)'});
+    res.json({ message: "Test expense modified successfully! :)" });
   } catch (err) {
     console.log(err);
   }
@@ -229,8 +251,10 @@ app.delete("/api/budget/:year/:month/:id", verify, async (req, res) => {
   const expenses = client.db("expenses");
 
   try {
-    await expenses.collection("expenses").deleteOne({"_id" : new ObjectId(req.params.id)});
-    res.json({message: 'Test expense deleted successfully! >:)'});
+    await expenses
+      .collection("expenses")
+      .deleteOne({ _id: new ObjectId(req.params.id) });
+    res.json({ message: "Test expense deleted successfully! >:)" });
   } catch (err) {
     console.log(err);
   }
@@ -254,12 +278,7 @@ app.get("/api/users/search?q=query", verify, (req, res) => {
   //TODO, it might not need verify middleware, it's a design choice!
 });
 
-
 app.listen(3000); //listen on port 3000
-
-
-
-
 
 /* //For jwt approach
 

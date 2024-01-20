@@ -4,9 +4,9 @@
 getUser().then(user => {
     const table = document.querySelector("#user_table");
     const tr = document.createElement("tr");
-    const username = document.createElement("username");
-    const name = document.createElement("name");
-    const surname = document.createElement("surname");
+    const username = document.createElement("td");
+    const name = document.createElement("td");
+    const surname = document.createElement("td");
     username.innerText = user.username;
     name.innerText = user.name;
     surname.innerText = user.surname;
