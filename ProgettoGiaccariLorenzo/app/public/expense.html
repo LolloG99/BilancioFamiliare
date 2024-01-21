@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Chosen Expense</title>
     <script src="../../../assets/js/expense.js" defer></script>
@@ -10,6 +11,7 @@
         }
     </style>
 </head>
+
 <body>
     <table id="expense_table">
         <tr>
@@ -24,7 +26,7 @@
     <button id="delete_button">Elimina Spesa</button><br>
     <button id="modify_button">Modifica Spesa</button><br>
 
-    <form id="create_expense_form">
+    <form id="modify_expense_form" style="display: none;"><br>
         <label for="date">Data:</label>
         <input type="date" name="date" id="date" /><br>
         <label for="description">Descrizione:</label>
@@ -36,19 +38,24 @@
         <div id="users">
             <div id="user_info_1">
                 <label for="user1">Utente:</label>
-                <input type="text" name="user1" id="user1" class="user"/>
+                <input type="text" name="user1" id="user1" class="user" />
                 <label for="part1">Parte di spesa dell'utente:</label>
-                <input type="number" step="0.01" name="part1" id="part1" class="part"/><br>
+                <input type="number" step="0.01" name="part1" id="part1" class="part" /><br>
             </div>
         </div>
         <br>
-        <input type="submit" value="Aggiungi Spesa!" />
+        <input type="submit" value="Conferma Modifiche" />
     </form>
-
-    <form id="expense_modify" action="javascript:modifyExpense()">
-        <input type="submit" value="Modifica"/>
-    </form><br>
-
     <a href="/">TORNA A CASA</a><br>
 </body>
+<script>
+    // This script handles the dynamic behavior of the html page
+    let modify_button = document.getElementById("modify_button");
+    modify_button.addEventListener("click", (event) => {
+        event.preventDefault();
+        let modify_expense_form = document.getElementById("modify_expense_form");
+        modify_expense_form.style.display = '';
+    });
+</script>
+
 </html>

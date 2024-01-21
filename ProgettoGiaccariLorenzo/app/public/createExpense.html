@@ -34,11 +34,9 @@
 </body>
 <script>
     // This script handles the dynamic behavior of the users div's children
-    let i = 1;
-
     let user_info_1 = document.querySelector("#user_info_1")
     // When user_info_1 is clicked on, it creates a new clone of itself
-    user_info_1.addEventListener("click", function() {new_user_info()}, {once : true})
+    user_info_1.addEventListener("click", function() {new_user_info(2)}, {once : true})
     // user_info_1 begins with the current user's username
     getUser().then(current_user => {
         user_info_1.children[1].setAttribute("value", current_user.username);
@@ -49,22 +47,23 @@
         user_info_1.children[3].setAttribute("value", total_cost.value);
     });
 
-    function new_user_info() {
-        const user_info_id = '#user_info_' + i;
+    function new_user_info(i) {
+        const user_info_id = '#user_info_' + (i-1);
         let el = document.querySelector(user_info_id);
         let clone = el.cloneNode(true);
-        i++;
+        el.after(clone);
         clone.id = 'user_info_' + i;
         clone.children[0].htmlFor = "user" + i; // Label user
         clone.children[1].id = "user" + i; // Textinput user
         clone.children[1].name = "user" + i;
         clone.children[1].setAttribute("value", "");
+        clone.children[1].value = "";
         clone.children[2].htmlFor = "part" + i; // Label part
         clone.children[3].id = "part" + i; // Numberinput part
         clone.children[3].name = "part" + i;
         clone.children[3].setAttribute("value", "");
-        el.after(clone);
-        clone.addEventListener("click", function() {new_user_info()}, {once : true})
+        clone.children[3].value = "";
+        clone.addEventListener("click", function() {new_user_info(i+1)}, {once : true})
     }
 
     // Gets from api the current user

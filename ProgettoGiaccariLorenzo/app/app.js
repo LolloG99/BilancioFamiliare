@@ -220,7 +220,7 @@ app.post("/api/budget/:year/:month", verify, async (req, res) => {
     const db_expense = await expenses.collection("expenses").insertOne(new_expense);
     res.status(201).json({ message: "Test expense added successfully! :)" });
   } catch (err) {
-    console.log(err);
+    res.status(500).json({ message: "Error :(" });
   }
 });
 
@@ -233,14 +233,19 @@ app.put("/api/budget/:year/:month/:id", verify, async (req, res) => {
   const filter = { _id: new ObjectId(req.params.id) };
   const updateEl = {
     $set: {
-      description: "This description has been modified successfully!",
+      //description: "This description has been modified successfully!",
+      date: req.body.date,
+      description: req.body.description,
+      category: req.body.category,
+      total_cost: req.body.total_cost,
+      users: req.body.users
     },
   };
   try {
     await expenses.collection("expenses").updateOne(filter, updateEl);
     res.json({ message: "Test expense modified successfully! :)" });
   } catch (err) {
-    console.log(err);
+    res.status(500).json({ message: "Error :(" });
   }
 });
 

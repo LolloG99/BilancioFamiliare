@@ -6,8 +6,31 @@ const id = parts[parts.length - 1];
 const m = parts[parts.length - 2];
 const y = parts[parts.length - 3];
 
-// Shows the details of a single expense on a table
+// Function that creates a user_info in the modify_expense_form and connects itself to the click event of the next (if clonable is true.)
+function new_user_info(i, user, part, clonable) {
+  const user_info_id = "#user_info_" + (i-1);
+  let el = document.querySelector(user_info_id);
+  let clone = el.cloneNode(true);
+  clone.id = 'user_info_' + i;
+  clone.children[0].htmlFor = "user" + i; // Label user
+  clone.children[1].id = "user" + i; // Textinput user
+  clone.children[1].name = "user" + i;
+  clone.children[1].setAttribute("value", user);
+  clone.children[1].value = user;
+  clone.children[2].htmlFor = "part" + i; // Label part
+  clone.children[3].id = "part" + i; // Numberinput part
+  clone.children[3].name = "part" + i;
+  clone.children[3].setAttribute("value", part);
+  clone.children[3].value = part;
+  el.after(clone);
+  if (clonable) { // Not clonable when created in the beginning with getExpense, but it is if created afterwards
+    clone.addEventListener("click", function() {new_user_info(i+1, "", "", true)}, {once : true})
+  }
+}
+
+// Shows the details of a single expense on a table and fills the modify_form
 getExpense().then((expense) => {
+  // Shows the details of a single expense on a table
   const table = document.querySelector("#expense_table");
   const tr = document.createElement("tr");
   const date = document.createElement("td");
@@ -29,6 +52,28 @@ getExpense().then((expense) => {
   tr.appendChild(category);
   tr.appendChild(total_cost);
   tr.appendChild(users);
+  // Pre-fill the modify form
+  document.getElementById("date").setAttribute("value", expense.date); // date
+  document.getElementById("description").setAttribute("value", expense.description); // description
+  document.getElementById("category").setAttribute("value", expense.category); // category
+  document.getElementById("total_cost").setAttribute("value", expense.total_cost); // total_cost
+  // Pre-fill the users portion of the modify form
+  let i = 1;
+  Object.keys(expense.users).forEach((element) => {
+    if (i === 1) {
+      let user_info_1 = document.getElementById("user_info_1");
+      user_info_1.getElementsByClassName("user")[0].setAttribute("value", element);
+      user_info_1.getElementsByClassName("part")[0].setAttribute("value", expense.users[element]);
+    } else {
+      new_user_info(i, element, expense.users[element], false);
+    }
+    i++;
+  });
+  // Void last user_info, the only one that gets the cloning trigger
+  new_user_info(i, "", "", true);
+  //let user_info_last_id = "user_info_" + (i-1);
+  //let user_info_last = document.getElementById(user_info_last_id);
+  //user_info_last.addEventListener("click", function() {new_user_info(i, "", "", true)}, {once : true})
 });
 
 // Gets from api a specific expense using id
@@ -36,11 +81,6 @@ async function getExpense() {
   const response = await fetch(`/api/budget/${y}/${m}/${id}`);
   const expense = await response.json();
   return expense;
-}
-
-// Calls api's put
-async function modifyExpense() {
-  await fetch(`/api/budget/${y}/${m}/${id}`, { method: "PUT" });
 }
 
 // Calls api's delete
@@ -59,4 +99,56 @@ delete_button.addEventListener("click", async (event) => {
       alert("Ops! Qualcosa è andato storto");
     }
   }
+});
+
+// Calls api's put
+const modify_expense_form = document.getElementById('modify_expense_form');
+const errorMessage = document.getElementById('error_message');
+modify_expense_form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const date = document.getElementById('date').value.trim();
+    const description = document.getElementById('description').value.trim();
+    const category = document.getElementById('category').value.trim();
+    const total_cost = document.getElementById('total_cost').value.trim();
+    if (!date) {
+        alert('Per favore, inserire una data');
+        return;
+    }
+
+    // Creates users and makes sure the sum of all parts is equal to total_cost
+    let users = {};
+    let sum = 0;
+    const users_html = document.querySelector('#users');
+    for (let i = 0; i < users_html.children.length; i++) {
+        const username = users_html.children[i].getElementsByClassName("user")[0].value.trim();
+        const userpart = parseFloat(users_html.children[i].getElementsByClassName("part")[0].value);
+        if (username && userpart) {
+            sum += userpart;
+            users[username] = userpart;
+        }
+    }
+    if (sum != total_cost) {
+        alert('Attenzione! Il costo totale della spesa dev\'essere uguale alla somma delle parti di spesa degli utenti!');
+        return;
+    }
+
+    const parts = date.split("-");
+    const year = parts[0];
+    const month = parts[1];
+    // Calls api to create a new expense with chosen values
+    const response = await fetch(`/api/budget/${year}/${month}/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ date, description, category, total_cost, users }),
+    });
+    if (!response.ok) {
+        alert("Ops! Qualcosa è andato storto");
+        return;
+    } else {
+        alert("Spesa modificata con successo! :)");
+        window.location.replace(`/budget/${year}/${month}/${id}`);
+        return;
+    }
 });

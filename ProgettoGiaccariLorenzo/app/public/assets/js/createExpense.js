@@ -21,13 +21,13 @@ form.addEventListener('submit', async (event) => {
     const users_html = document.querySelector('#users');
     for (let i = 0; i < users_html.children.length; i++) {
         const username = users_html.children[i].getElementsByClassName("user")[0].value.trim();
-        const userpart = users_html.children[i].getElementsByClassName("part")[0].value.trim();
+        const userpart = parseFloat(users_html.children[i].getElementsByClassName("part")[0].value);
         if (username && userpart) {
             sum += userpart;
             users[username] = userpart;
         }
     }
-    if (sum !== total_cost) {
+    if (sum != total_cost) {
         errorMessage.textContent = 'Attenzione! Il costo totale della spesa dev\'essere uguale alla somma delle parti di spesa degli utenti!';
         return;
     }
