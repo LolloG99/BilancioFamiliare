@@ -44,6 +44,19 @@ async function modifyExpense() {
 }
 
 // Calls api's delete
-async function deleteExpense() {
-  await fetch(`/api/budget/${y}/${m}/${id}`, { method: "DELETE" });
-}
+const delete_button = document.getElementById("delete_button");
+delete_button.addEventListener("click", async (event) => {
+  event.preventDefault();
+  let result = window.confirm("Sei sicuro di voler eliminare la spesa?");
+  if (result) {
+    const response = await fetch(`/api/budget/${y}/${m}/${id}`, {
+      method: "DELETE",
+    });
+    if (response.ok) {
+      alert("Spesa eliminata con successo! :)");
+      window.location.replace("/");
+    } else {
+      alert("Ops! Qualcosa è andato storto");
+    }
+  }
+});

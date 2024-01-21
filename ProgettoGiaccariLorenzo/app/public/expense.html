@@ -21,12 +21,34 @@
         </tr>
     </table>
 
+    <button id="delete_button">Elimina Spesa</button><br>
+    <button id="modify_button">Modifica Spesa</button><br>
+
+    <form id="create_expense_form">
+        <label for="date">Data:</label>
+        <input type="date" name="date" id="date" /><br>
+        <label for="description">Descrizione:</label>
+        <input type="text" name="description" id="description" /><br>
+        <label for="category">Categoria:</label>
+        <input type="text" name="category" id="category" /><br>
+        <label for="total_cost">Costo Totale:</label>
+        <input type="number" step="0.01" name="total_cost" id="total_cost" /><br>
+        <div id="users">
+            <div id="user_info_1">
+                <label for="user1">Utente:</label>
+                <input type="text" name="user1" id="user1" class="user"/>
+                <label for="part1">Parte di spesa dell'utente:</label>
+                <input type="number" step="0.01" name="part1" id="part1" class="part"/><br>
+            </div>
+        </div>
+        <br>
+        <input type="submit" value="Aggiungi Spesa!" />
+    </form>
+
     <form id="expense_modify" action="javascript:modifyExpense()">
         <input type="submit" value="Modifica"/>
-    </form>
-    <form id="expense_delete" action="javascript:deleteExpense()">
-        <input type="submit" value="Elimina"/>
     </form><br>
+
     <a href="/">TORNA A CASA</a><br>
 </body>
 </html>

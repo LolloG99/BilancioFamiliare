@@ -256,7 +256,7 @@ app.delete("/api/budget/:year/:month/:id", verify, async (req, res) => {
       .deleteOne({ _id: new ObjectId(req.params.id) });
     res.json({ message: "Test expense deleted successfully! >:)" });
   } catch (err) {
-    console.log(err);
+    res.status(500).json({ message: "Error :(" });
   }
 });
 
