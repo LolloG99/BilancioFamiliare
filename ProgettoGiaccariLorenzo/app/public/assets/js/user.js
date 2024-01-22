@@ -2,7 +2,7 @@
 
 // Shows the details of a single expense on a table
 getUser().then(user => {
-    const table = document.querySelector("#user_table");
+    const table = document.getElementById("user_table");
     const tr = document.createElement("tr");
     const username = document.createElement("td");
     const name = document.createElement("td");

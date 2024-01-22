@@ -19,37 +19,35 @@
         <div id="users">
             <div id="user_info_1">
                 <label for="user1">Utente:</label>
-                <input type="text" name="user1" id="user1" class="user"/>
+                <input type="text" name="user1" id="user1"/>
                 <label for="part1">Parte di spesa dell'utente:</label>
-                <input type="number" step="0.01" name="part1" id="part1" class="part"/><br>
+                <input type="number" step="0.01" name="part1" id="part1"/><br>
             </div>
         </div>
         <br>
         <input type="submit" value="Aggiungi Spesa!" />
     </form>
-    <!--<button onclick="new_user_info()" id="userdivbutton">Aggiungi utente alla spesa</button>-->
     <br>
-    <div id="error_message"></div>
     <a href="/">GO BACK HOME</a>
 </body>
 <script>
     // This script handles the dynamic behavior of the users div's children
-    let user_info_1 = document.querySelector("#user_info_1")
+    let user_info_1 = document.getElementById("user_info_1")
     // When user_info_1 is clicked on, it creates a new clone of itself
-    user_info_1.addEventListener("click", function() {new_user_info(2)}, {once : true})
+    user_info_1.addEventListener("input", function() {new_user_info(2)}, {once : true})
     // user_info_1 begins with the current user's username
     getUser().then(current_user => {
         user_info_1.children[1].setAttribute("value", current_user.username);
     });
     // user_info_1 updates dynamically its part when total_cost is modified
-    let total_cost = document.querySelector("#total_cost")
+    let total_cost = document.getElementById("total_cost")
     total_cost.addEventListener("input", () => {
         user_info_1.children[3].setAttribute("value", total_cost.value);
     });
 
     function new_user_info(i) {
-        const user_info_id = '#user_info_' + (i-1);
-        let el = document.querySelector(user_info_id);
+        const user_info_id = 'user_info_' + (i-1);
+        let el = document.getElementById(user_info_id);
         let clone = el.cloneNode(true);
         el.after(clone);
         clone.id = 'user_info_' + i;
@@ -63,7 +61,7 @@
         clone.children[3].name = "part" + i;
         clone.children[3].setAttribute("value", "");
         clone.children[3].value = "";
-        clone.addEventListener("click", function() {new_user_info(i+1)}, {once : true})
+        clone.addEventListener("input", function() {new_user_info(i+1)}, {once : true})
     }
 
     // Gets from api the current user

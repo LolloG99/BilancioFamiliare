@@ -1,5 +1,6 @@
 // .js file that handles modification, deletion and visualization of a single expense
 
+// y and m are used for get and delete; id for get, delete and put.
 const url = window.location.href;
 const parts = url.split("/");
 const id = parts[parts.length - 1];
@@ -8,8 +9,8 @@ const y = parts[parts.length - 3];
 
 // Function that creates a user_info in the modify_expense_form and connects itself to the click event of the next (if clonable is true.)
 function new_user_info(i, user, part, clonable) {
-  const user_info_id = "#user_info_" + (i-1);
-  let el = document.querySelector(user_info_id);
+  const user_info_id = "user_info_" + (i-1);
+  let el = document.getElementById(user_info_id);
   let clone = el.cloneNode(true);
   clone.id = 'user_info_' + i;
   clone.children[0].htmlFor = "user" + i; // Label user
@@ -24,14 +25,14 @@ function new_user_info(i, user, part, clonable) {
   clone.children[3].value = part;
   el.after(clone);
   if (clonable) { // Not clonable when created in the beginning with getExpense, but it is if created afterwards
-    clone.addEventListener("click", function() {new_user_info(i+1, "", "", true)}, {once : true})
+    clone.addEventListener("input", function() {new_user_info(i+1, "", "", true)}, {once : true})
   }
 }
 
 // Shows the details of a single expense on a table and fills the modify_form
 getExpense().then((expense) => {
   // Shows the details of a single expense on a table
-  const table = document.querySelector("#expense_table");
+  const table = document.getElementById("expense_table");
   const tr = document.createElement("tr");
   const date = document.createElement("td");
   const description = document.createElement("td");
@@ -61,9 +62,8 @@ getExpense().then((expense) => {
   let i = 1;
   Object.keys(expense.users).forEach((element) => {
     if (i === 1) {
-      let user_info_1 = document.getElementById("user_info_1");
-      user_info_1.getElementsByClassName("user")[0].setAttribute("value", element);
-      user_info_1.getElementsByClassName("part")[0].setAttribute("value", expense.users[element]);
+      document.getElementById("user1").setAttribute("value", element);
+      document.getElementById("part1").setAttribute("value", expense.users[element]);
     } else {
       new_user_info(i, element, expense.users[element], false);
     }
@@ -71,9 +71,6 @@ getExpense().then((expense) => {
   });
   // Void last user_info, the only one that gets the cloning trigger
   new_user_info(i, "", "", true);
-  //let user_info_last_id = "user_info_" + (i-1);
-  //let user_info_last = document.getElementById(user_info_last_id);
-  //user_info_last.addEventListener("click", function() {new_user_info(i, "", "", true)}, {once : true})
 });
 
 // Gets from api a specific expense using id
@@ -103,7 +100,6 @@ delete_button.addEventListener("click", async (event) => {
 
 // Calls api's put
 const modify_expense_form = document.getElementById('modify_expense_form');
-const errorMessage = document.getElementById('error_message');
 modify_expense_form.addEventListener('submit', async (event) => {
     event.preventDefault();
     const date = document.getElementById('date').value.trim();
@@ -118,10 +114,10 @@ modify_expense_form.addEventListener('submit', async (event) => {
     // Creates users and makes sure the sum of all parts is equal to total_cost
     let users = {};
     let sum = 0;
-    const users_html = document.querySelector('#users');
+    const users_html = document.getElementById('users');
     for (let i = 0; i < users_html.children.length; i++) {
-        const username = users_html.children[i].getElementsByClassName("user")[0].value.trim();
-        const userpart = parseFloat(users_html.children[i].getElementsByClassName("part")[0].value);
+        const username = document.getElementById("user" + (i+1)).value.trim();
+        const userpart = parseFloat(document.getElementById("part" + (i+1)).value);
         if (username && userpart) {
             sum += userpart;
             users[username] = userpart;

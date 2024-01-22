@@ -7,7 +7,7 @@ getExpenses().then(expenses => {
 
 // Adds a row to the table-list of expenses
 function addExpense(expense) {
-    const table = document.querySelector("#expenses_list");
+    const table = document.getElementById("expenses_list");
     const tr = document.createElement("tr");
     const date = document.createElement("td");
     const description = document.createElement("td");
