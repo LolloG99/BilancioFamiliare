@@ -17,13 +17,41 @@
     <a href="/create-expense">AGGIUNGI UNA NUOVA SPESA YiPPiE</a><br>
     <a href="budget/whoami">WHO AM I?</a>
     <br><br>
+    <form id="year_month_filter">
+        <!--<label for="year">Filtra per anno:</label>
+        <input type="number" name="year" id="year" /><br>-->
+        <select name="years" id="years">
+            <option value="">--- Seleziona un anno ---</option>
+        </select>
+        <select name="months" id="months">
+            <option value="">--- Seleziona un mese ---</option>
+            <option value="01">Gennaio</option>
+            <option value="02">Febbraio</option>
+            <option value="03">Marzo</option>
+            <option value="04">Aprile</option>
+            <option value="05">Maggio</option>
+            <option value="06">Giugno</option>
+            <option value="07">Luglio</option>
+            <option value="08">Agosto</option>
+            <option value="09">Settembre</option>
+            <option value="10">Ottobre</option>
+            <option value="11">Novembre</option>
+            <option value="12">Dicembre</option>
+        </select>
+        <input type="submit" value="Filtra" />
+    </form><br>
     <table id="expenses_list">
-        <tr>
-            <th>Data</th>
-            <th>Descrizione</th>
-            <th>Categoria</th>
-            <th>Costo Totale</th>
-        </tr>
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Descrizione</th>
+                <th>Categoria</th>
+                <th>Costo Totale</th>
+            </tr>
+        </thead>
+        <tbody id="expenses_list_body">
+
+        </tbody>
     </table>
 </body>
 </html>

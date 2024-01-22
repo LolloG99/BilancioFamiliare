@@ -169,6 +169,7 @@ app.get("/api/budget/:year", verify, async (req, res) => {
   let expenses = await exps.collection("expenses").find(query).toArray();
   res.json(expenses);
 });
+
 // GET /api/budget/:year/:month - logged user's expenses in the chosen year and month
 app.get("/api/budget/:year/:month", verify, async (req, res) => {
   const client = new MongoClient(uri);
@@ -185,6 +186,7 @@ app.get("/api/budget/:year/:month", verify, async (req, res) => {
   let expenses = await exps.collection("expenses").find(query).toArray();
   res.json(expenses);
 });
+
 // GET /budget/:year/:month/:id - to access the corresponding html page
 app.get("/budget/:year/:month/:id", verify, async (req, res) => {
   try {
@@ -300,7 +302,6 @@ app.get("/api/balance/:id", verify, (req, res) => {
 app.get("/api/budget/search?q=query", verify, (req, res) => {
   //TODO
 });
-
 // GET /api/users/search?q=query - searches user that matches query string
 app.get("/api/users/search?q=query", verify, (req, res) => {
   //TODO, it might not need verify middleware, it's a design choice!
