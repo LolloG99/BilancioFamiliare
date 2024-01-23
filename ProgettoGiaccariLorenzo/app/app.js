@@ -238,11 +238,14 @@ app.post("/api/budget/:year/:month", verify, async (req, res) => {
     users: req.body.users /*{
       lollo: req.body.total_cost / 2,
       johnci: req.body.total_cost / 2,
-    },*/
+    },*/,
+    host: req.session.user.username,
   };
 
   try {
-    const db_expense = await expenses.collection("expenses").insertOne(new_expense);
+    const db_expense = await expenses
+      .collection("expenses")
+      .insertOne(new_expense);
     res.status(201).json({ message: "Test expense added successfully! :)" });
   } catch (err) {
     res.status(500).json({ message: "Error :(" });
@@ -263,7 +266,7 @@ app.put("/api/budget/:year/:month/:id", verify, async (req, res) => {
       description: req.body.description,
       category: req.body.category,
       total_cost: req.body.total_cost,
-      users: req.body.users
+      users: req.body.users,
     },
   };
   try {
@@ -291,9 +294,53 @@ app.delete("/api/budget/:year/:month/:id", verify, async (req, res) => {
 });
 
 // GET /api/balance - visualize give/take summary of logged user
-app.get("/api/balance", verify, (req, res) => {
-  //TODO
+app.get("/api/balance", verify, async (req, res) => {
+  // Copypaste of get /api/budget
+  const client = new MongoClient(uri);
+  await client.connect();
+  const exps = client.db("expenses");
+
+  const username = req.session.user.username;
+  var query = {};
+  query["users." + username] = { $exists: true };
+
+  let expenses = await exps.collection("expenses").find(query).toArray();
+
+  // Calculate balance: list of debt or credit of other users with respect to the current user.
+  // A positive value means that that other user should give money to the current user
+  // A negative value means that the current user should give money to the other user
+  let balance = {};
+  expenses.forEach((expense) => {
+    if (expense.total_cost === "0") { // If it's a refund
+      Object.keys(expense.users).forEach((user) => { // Iter through the users (there's two of them)
+        if (user !== username) { // If it's the other user
+          if (!balance[user]) {
+            balance[user] = 0;
+          }
+          balance[user] -= parseFloat(expense.users[user]); // Remove the other user's part (it works wether it's a refund from or to the other user)
+        }
+      });
+    } else {
+      if (expense.host === username) { // If the current user is the host
+        Object.keys(expense.users).forEach((user) => { // Iter through the users
+          if (user !== username) { // If the considered user is not the host
+            if (!balance[user]) {
+              balance[user] = 0;
+            }
+            balance[user] += parseFloat(expense.users[user]); // Add the user's part
+          }
+        });
+      } else {
+        if (!balance[expense.host]) {
+          balance[expense.host] = 0;
+        }
+        balance[expense.host] -= parseFloat(expense.users[username]); // Remove the user's part from this expense's host if the current user is not the host
+      }
+    }
+  });
+  res.json(balance);
 });
+
 // GET /api/balance/:id - visualize give/take summary of logged user with user of chosen id
 app.get("/api/balance/:id", verify, (req, res) => {
   //TODO

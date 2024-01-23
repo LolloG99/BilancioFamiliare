@@ -40,6 +40,7 @@ function addExpense(expense) {
   const description = document.createElement("td");
   const category = document.createElement("td");
   const total_cost = document.createElement("td");
+  const host = document.createElement("td");
   const a = document.createElement("a");
   const parts = expense.date.split("-");
   a.href = `/budget/${parts[0]}/${parts[1]}/${expense._id}`; //parts[0] is year, parts[1] is month, parts[2] is day
@@ -48,11 +49,13 @@ function addExpense(expense) {
   description.innerText = expense.description;
   category.innerText = expense.category;
   total_cost.innerText = expense.total_cost;
+  host.innerText = expense.host;
   table_body.appendChild(tr);
   tr.appendChild(date);
   tr.appendChild(description);
   tr.appendChild(category);
   tr.appendChild(total_cost);
+  tr.appendChild(host);
 }
 
 // Takes all expenses of a single users using api

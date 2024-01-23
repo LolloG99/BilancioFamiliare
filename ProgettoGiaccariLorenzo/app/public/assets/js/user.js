@@ -16,9 +16,29 @@ getUser().then(user => {
     tr.appendChild(surname);
 })
 
+getBalance().then(balance => {
+    const table = document.getElementById("balance_table");
+    Object.keys(balance).forEach((user) => {
+        const tr = document.createElement("tr");
+        const username = document.createElement("td");
+        const debt = document.createElement("td");
+        username.innerText = user;
+        debt.innerText = balance[user];
+        table.appendChild(tr);
+        tr.appendChild(username);
+        tr.appendChild(debt);
+    })
+})
+
 // Gets from api the current user
 async function getUser() {
     const response = await fetch(`/api/budget/whoami`);
     const user = await response.json();
     return user;
+}
+
+async function getBalance() {
+    const response = await fetch(`/api/balance`);
+    const balance = await response.json();
+    return balance;
 }
