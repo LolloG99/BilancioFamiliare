@@ -1,4 +1,4 @@
-// .js file that handles visualization of a single user
+// .js file that handles visualization of a single user, and of the user's give/take balance
 
 // Shows the details of a single expense on a table
 getUser().then(user => {
@@ -22,8 +22,11 @@ getBalance().then(balance => {
         const tr = document.createElement("tr");
         const username = document.createElement("td");
         const debt = document.createElement("td");
-        username.innerText = user;
+        const a = document.createElement("a");
+        a.href = `/balance/${user}`
+        a.innerText = user;
         debt.innerText = balance[user];
+        username.appendChild(a);
         table.appendChild(tr);
         tr.appendChild(username);
         tr.appendChild(debt);

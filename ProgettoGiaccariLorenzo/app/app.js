@@ -341,10 +341,38 @@ app.get("/api/balance", verify, async (req, res) => {
   res.json(balance);
 });
 
-// GET /api/balance/:id - visualize give/take summary of logged user with user of chosen id
-app.get("/api/balance/:id", verify, (req, res) => {
-  //TODO
+// GET /balance/:id - to access the corresponding html page
+app.get("/balance/:id", verify, async (req, res) => {
+  try {
+    const data = await fs.readFile(`${__dirname}/public/balanceWithOther.html`, {
+      encoding: `utf8`,
+    });
+    res.send(data);
+  } catch (err) {
+    console.log(err);
+  }
 });
+
+// GET /api/balance/:id - visualize give/take summary of logged user with user of chosen id
+// username is used as id because it's unique
+app.get("/api/balance/:id", verify, async (req, res) => {
+    // Copypaste of get /api/budget
+  const client = new MongoClient(uri);
+  await client.connect();
+  const exps = client.db("expenses");
+
+  // Take all expenses where both users are involved and where one of them is the host
+  const username = req.session.user.username;
+  const other_user = req.params.id;
+  var query = {};
+  query["users." + username] = { $exists: true };
+  query["users." + other_user] = { $exists: true };
+  query["host"] = { $in: [username, other_user] };
+
+  let expenses = await exps.collection("expenses").find(query).toArray();
+  res.json(expenses);
+});
+
 // GET /api/budget/search?q=query - search expense that matches the query string
 app.get("/api/budget/search?q=query", verify, (req, res) => {
   //TODO
