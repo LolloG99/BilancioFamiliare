@@ -21,11 +21,33 @@
         </tr>
     </table>
     <br>
+    <form id="user_search">
+        <label for="user_search_text">Cerca utenti:</label>
+        <input type="text" name="user_search_text" id="user_search_text">
+        <input type="submit" value="Cerca">
+    </form>
+    <table id="user_search_table" style="display: none;">
+        <thead>
+            <tr>
+                <th>username</th>
+                <th>Nome</th>
+                <th>Cognome</th>
+            </tr>
+        </thead>
+        <tbody id="user_search_table_body">
+
+        </tbody>
+    </table><br>
     <table id="balance_table">
-        <tr>
-            <th>username</th>
-            <th>Debito nei tuoi confronti</th>
-        </tr>
+        <thead>
+            <tr>
+                <th>username</th>
+                <th>Debito nei tuoi confronti</th>
+            </tr>
+        </thead>
+        <tbody id="balance_table_body">
+
+        </tbody>
     </table>
 
     <br>

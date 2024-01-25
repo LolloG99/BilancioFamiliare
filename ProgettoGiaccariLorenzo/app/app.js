@@ -154,6 +154,30 @@ app.get("/api/budget/whoami", verify, async (req, res) => {
   res.json(user);
 });
 
+// GET /api/budget/search?q=query - search expense that matches the query string
+// Needs to be put before /api/budget/:year because otherwise that function will treat "search" as its year parameter
+app.get("/api/budget/search", verify, async (req, res) => {
+  const client = new MongoClient(uri);
+  await client.connect();
+  const exps = client.db("expenses");
+
+  const username = req.session.user.username;
+  const q = req.query.q;
+  var query = {};
+  query["users." + username] = { $exists: true };
+  //Match the query string with expenses' dates, descriptions, categories, total_costs and hosts
+  query["$or"] = [ 
+    { "date" : { $regex : q, $options: 'i' } },
+    { "description" : { $regex : q, $options: 'i' } },
+    { "category" : { $regex : q, $options: 'i' } },
+    { "total_cost" : { $regex : q, $options: 'i' } },
+    { "host" : { $regex : q, $options: 'i' } }
+  ];
+
+  let expenses = await exps.collection("expenses").find(query).toArray();
+  res.json(expenses);
+});
+
 // GET /api/budget/:year - logged user's expenses in the chosen year
 app.get("/api/budget/:year", verify, async (req, res) => {
   const client = new MongoClient(uri);
@@ -373,13 +397,24 @@ app.get("/api/balance/:id", verify, async (req, res) => {
   res.json(expenses);
 });
 
-// GET /api/budget/search?q=query - search expense that matches the query string
-app.get("/api/budget/search?q=query", verify, (req, res) => {
-  //TODO
-});
 // GET /api/users/search?q=query - searches user that matches query string
-app.get("/api/users/search?q=query", verify, (req, res) => {
-  //TODO, it might not need verify middleware, it's a design choice!
+app.get("/api/users/search", verify, async (req, res) => {
+  //it might not need verify middleware, it's a design choice!
+  const client = new MongoClient(uri);
+  await client.connect();
+  const users = client.db("users");
+
+  const q = req.query.q;
+  var query = {};
+  //Match the query string with users' usernames, names and surnames
+  query["$or"] = [ 
+    { "username" : { $regex : q, $options: 'i' } },
+    { "name" : { $regex : q, $options: 'i' } },
+    { "surname" : { $regex : q, $options: 'i' } }
+  ];
+
+  let searched_users = await users.collection("users").find(query).toArray();
+  res.json(searched_users);
 });
 
 app.listen(3000); //listen on port 3000
