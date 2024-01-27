@@ -32,6 +32,22 @@ year_month_filter.addEventListener("submit", async (event) => {
   });
 });
 
+const expense_search = document.getElementById("expense_search");
+expense_search.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  year = "";
+  month = "";
+  yearsSelector.value = "";
+  monthsSelector.value = "";
+  document.getElementById("expenses_list_body").innerHTML = "";
+  query = document.getElementById("expense_search_text").value;
+  getExpensesQuery(query).then((expenses) => {
+    expenses.forEach((expense) => {
+      addExpense(expense);
+    });
+  });
+})
+
 // Adds a row to the table-list of expenses
 function addExpense(expense) {
   const table_body = document.getElementById("expenses_list_body");
@@ -75,4 +91,11 @@ async function getExpenses() {
     const expenses = await response.json();
     return expenses;
   }
+}
+
+// Gets users from api with specified query
+async function getExpensesQuery(query) {
+  const response = await fetch(`/api/budget/search?q=${query}`);
+  const expenses = await response.json();
+  return expenses;
 }

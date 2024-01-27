@@ -39,11 +39,14 @@
         <div id="users">
             <div id="user_info_1">
                 <label for="user1">Utente:</label>
-                <input type="text" name="user1" id="user1" />
+                <input type="text" list="userlist" name="user1" id="user1" />
                 <label for="part1">Parte di spesa dell'utente:</label>
                 <input type="number" step="0.01" name="part1" id="part1" /><br>
             </div>
         </div>
+        <datalist id="userlist">
+
+        </datalist>
         <br>
         <input type="submit" value="Conferma Modifiche" />
     </form>

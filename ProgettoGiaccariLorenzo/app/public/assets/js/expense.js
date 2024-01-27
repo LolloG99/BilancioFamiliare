@@ -8,6 +8,19 @@ const m = parts[parts.length - 2];
 const y = parts[parts.length - 3];
 let current_username = "";
 let current_expense_host = "";
+// Array with all usernames to check wether a user that is part of the new expense being created exists in the users database
+let all_usernames = [];
+
+getUsersQuery("").then((users) => {
+  userlist = document.getElementById("userlist");
+  users.forEach((user) => {
+    all_usernames.push(user.username);
+    op = document.createElement("option");
+    op.value = user.username;
+    op.innerText = user.name + " " + user.surname;
+    userlist.appendChild(op);
+  });
+});
 
 // Function that creates a user_info in the modify_expense_form and connects itself to the click event of the next (if clonable is true.)
 function new_user_info(i, user, part, clonable) {
@@ -154,6 +167,10 @@ modify_expense_form.addEventListener("submit", async (event) => {
     const username = document.getElementById("user" + (i + 1)).value.trim();
     const userpart = document.getElementById("part" + (i + 1)).value;
     if (username && userpart) {
+      if (!all_usernames.includes(username)) {
+        alert("Utente " + username + " non esiste!");
+        return;
+      }
       sum += parseFloat(userpart);
       users[username] = userpart;
     }
@@ -203,4 +220,11 @@ async function getUser() {
   const response = await fetch(`/api/budget/whoami`);
   const user = await response.json();
   return user;
+}
+
+// Gets users from api with specified query
+async function getUsersQuery(query) {
+  const response = await fetch(`/api/users/search?q=${query}`);
+  const users = await response.json();
+  return users;
 }
