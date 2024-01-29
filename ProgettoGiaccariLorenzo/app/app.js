@@ -22,8 +22,10 @@ app.use(
   })
 );
 
+// LOGIN, SIGNUP, VERIFY
+
 // Register page
-app.get("/api/auth/signup", async (req, res) => {
+app.get("/auth/signup", async (req, res) => {
   try {
     const data = await fs.readFile(`${__dirname}/public/register.html`, {
       encoding: `utf8`,
@@ -55,9 +57,10 @@ app.post("/api/auth/signup", async (req, res) => {
       req.session.user = new_user;
       res.redirect("/api/restricted");
     } else {
+      res.statusMessage = "username already taken";
       res
         .status(403)
-        .send("Username già presente, per favore sceglierne un altro");
+        .send();
     }
   } catch (err) {
     console.log(err);
@@ -65,7 +68,7 @@ app.post("/api/auth/signup", async (req, res) => {
 });
 
 // Login page
-app.get("/api/auth/signin", async (req, res) => {
+app.get("/auth/signin", async (req, res) => {
   try {
     const data = await fs.readFile(`${__dirname}/public/login.html`, {
       encoding: `utf8`,
@@ -85,19 +88,10 @@ app.post("/api/auth/signin", async (req, res) => {
     .collection("users")
     .findOne({ username: req.body.username });
 
-  /*
-    db_user = { //temporary
-        username: 'user',
-        password: 'pass',
-        name: 'Lorenzo',
-        surname: 'Giaccari'
-    }*/
-
   if (db_user && db_user.password === req.body.password) {
     //"if db_user" because if db_user is null code crashes
     //generateAccessToken(db_user); //for jwt approach
     req.session.user = db_user;
-    //res.redirect("/api/restricted");
     res.redirect("/index.html");
   } else {
     res.status(403).send("Non autenticato :(");

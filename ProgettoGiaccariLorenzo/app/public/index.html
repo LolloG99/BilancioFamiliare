@@ -1,61 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Bilancio Familiare</title>
     <script src="assets/js/client.js" defer></script>
-    <style>
+    <!--<style>
         * {
             font-family: 'Courier New', Courier, monospace;
             color: rgb(6, 6, 66);
         }
-    </style>
+    </style>-->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
 </head>
-<body>
-    Iniziamo il progetto, yeah!<br>
-    <a href="/api/auth/signin">LOGIN VERO ACTUALLY</a><br>
-    <a href="/api/auth/signup">REGISTRAZIONE VERA ACTUALLY</a><br>
-    <a href="/create-expense">AGGIUNGI UNA NUOVA SPESA YiPPiE</a><br>
-    <a href="/budget/whoami">WHO AM I?</a>
-    <br><br>
-    <form id="year_month_filter">
-        <select name="years" id="years">
-            <option value="">--- Seleziona un anno ---</option>
-        </select>
-        <select name="months" id="months">
-            <option value="">--- Seleziona un mese ---</option>
-            <option value="01">Gennaio</option>
-            <option value="02">Febbraio</option>
-            <option value="03">Marzo</option>
-            <option value="04">Aprile</option>
-            <option value="05">Maggio</option>
-            <option value="06">Giugno</option>
-            <option value="07">Luglio</option>
-            <option value="08">Agosto</option>
-            <option value="09">Settembre</option>
-            <option value="10">Ottobre</option>
-            <option value="11">Novembre</option>
-            <option value="12">Dicembre</option>
-        </select>
-        <input type="submit" value="Filtra" />
-    </form><br>
-    <form id="expense_search">
-        <label for="expense_search_text">Cerca spese:</label>
-        <input type="text" name="expense_search_text" id="expense_search_text">
-        <input type="submit" value="Cerca">
-    </form>
-    <table id="expenses_list">
-        <thead>
-            <tr>
-                <th>Data</th>
-                <th>Descrizione</th>
-                <th>Categoria</th>
-                <th>Costo Totale</th>
-                <th>Pagato da</th>
-            </tr>
-        </thead>
-        <tbody id="expenses_list_body">
 
-        </tbody>
-    </table>
+<body>
+    <nav id="navbar">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/auth/signin">Login</a></li>
+            <li><a href="/auth/signup">Registrati</a></li>
+        </ul>
+    </nav>
+    <div id="body_div">
+        Iniziamo il progetto, yeah!<br>
+        <a href="/auth/signin">LOGIN VERO ACTUALLY</a><br>
+        <a href="/auth/signup">REGISTRAZIONE VERA ACTUALLY</a><br>
+        <a href="/create-expense">AGGIUNGI UNA NUOVA SPESA YiPPiE</a><br>
+        <a href="/budget/whoami">WHO AM I?</a>
+        <br><br>
+        <form id="year_month_filter">
+            <select name="years" id="years">
+                <option value="">--- Seleziona un anno ---</option>
+            </select>
+            <select name="months" id="months">
+                <option value="">--- Seleziona un mese ---</option>
+                <option value="01">Gennaio</option>
+                <option value="02">Febbraio</option>
+                <option value="03">Marzo</option>
+                <option value="04">Aprile</option>
+                <option value="05">Maggio</option>
+                <option value="06">Giugno</option>
+                <option value="07">Luglio</option>
+                <option value="08">Agosto</option>
+                <option value="09">Settembre</option>
+                <option value="10">Ottobre</option>
+                <option value="11">Novembre</option>
+                <option value="12">Dicembre</option>
+            </select>
+            <input type="submit" value="Filtra" />
+        </form><br>
+        <form id="expense_search">
+            <label for="expense_search_text">Cerca spese:</label>
+            <input type="text" name="expense_search_text" id="expense_search_text">
+            <input type="submit" value="Cerca">
+        </form>
+        <table id="expenses_list">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Descrizione</th>
+                    <th>Categoria</th>
+                    <th>Costo Totale</th>
+                    <th>Pagato da</th>
+                </tr>
+            </thead>
+            <tbody id="expenses_list_body">
+
+            </tbody>
+        </table>
+    </div>
 </body>
+
 </html>

@@ -1,26 +1,42 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Register</title>
-    </head>
-    <body>
-        <form id="register_form" action="/api/auth/signup" method="post">
-            <label for="username">Username:</label>
-            <input type="text" name="username" id="username" /><br>
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password"/><br>
-            <label for="name">Name:</label>
-            <input type="text" name="name" id="name" /><br>
-            <label for="surname">Surname:</label>
-            <input type="text" name="surname" id="surname" /><br>
-            <input type="submit" value="Sign up!"/>
-        </form>
-        <br><br>
-        <!--<form id="expense_form" action="/api/budget/2024/01" method="post">
-            <label for="username">Aggiungi spesa di test:</label>
-            <input type="submit" value="ORA!"/>
-        </form>
-        <br>-->
-        <a href="/">TORNA A CASA</a><br>
-    </body>
+
+<head>
+    <title>Register</title>
+</head>
+
+<body>
+    <form id="register_form" action="/api/auth/signup" method="post">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" /><br>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" /><br>
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" /><br>
+        <label for="surname">Surname:</label>
+        <input type="text" name="surname" id="surname" /><br>
+        <input type="submit" value="Sign up!" />
+    </form>
+    <br><br>
+
+    <a href="/">TORNA A CASA</a><br>
+</body>
+<script>
+    document.getElementById("register_form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const response = await fetch(`/api/auth/signup`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ username, password, name, surname }),
+        });
+        //TODOOOOOOOOOOO NON FUNZIONA AAAAAAAAAAAHHHHHH
+        if (response.statusMessage === "username already taken") {
+            alert("Username già presente, per favore sceglierne un altro");
+            return;
+        }
+    });
+</script>
+
 </html>
