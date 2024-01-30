@@ -1,4 +1,5 @@
 const express = require("express"); //load express
+//const bootstrap = require('bootstrap'); //load bootstrap
 const bodyParser = require("body-parser");
 const fs = require("fs/promises");
 const { MongoClient, ObjectId } = require("mongodb");
@@ -11,6 +12,7 @@ const app = express(); // build app
 app.use(express.static(`${__dirname}/public`)); // resolve the public folder from any request
 app.use(express.urlencoded());
 app.use(express.json());
+app.use("/bootstrap", express.static(`${__dirname}/node_modules/bootstrap/dist/`)); //use bootstrap
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
