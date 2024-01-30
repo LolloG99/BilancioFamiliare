@@ -2,7 +2,11 @@
 <html lang="en">
 
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bilancio Familiare</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="assets/js/client.js" defer></script>
     <!--<style>
         * {
@@ -14,47 +18,69 @@
 </head>
 
 <body>
-    <nav id="navbar">
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/auth/signin">Login</a></li>
-            <li><a href="/auth/signup">Registrati</a></li>
-        </ul>
+    <nav id="navbar" class="navbar fixed-top navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/auth/signin">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/auth/signup">Registrati</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/budget/whoami">Profilo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/create-expense">Crea Spesa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">Logout (TODO)</a></li>
+                </ul>
+            </div>
+        </div>
     </nav>
-    <div id="body_div">
-        Iniziamo il progetto, yeah!<br>
-        <a href="/auth/signin">LOGIN VERO ACTUALLY</a><br>
-        <a href="/auth/signup">REGISTRAZIONE VERA ACTUALLY</a><br>
-        <a href="/create-expense">AGGIUNGI UNA NUOVA SPESA YiPPiE</a><br>
-        <a href="/budget/whoami">WHO AM I?</a>
+    <nav id="navbar-logged" class="navbar fixed-top navbar-expand-lg bg-body-tertiary" style="display: none;">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarLoggedSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/budget/whoami">Profilo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/create-expense">Crea Spesa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">Logout (TODO)</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div id="body_div" class="container-xl">
+        <h1 class="container text-center">Bilancio Familiare Webapp</h1>
+        Bilancio familiare webapp è una webapp in grado di tenere traccia delle spese fatte dalla tua famiglia,
+        dal tuo gruppo di amici, o qualunque altro gruppo! Basta iscriversi e potrete tenere traccia delle spese
+        fatte e dei debiti di ogni componente del gruppo nei tuoi confronti!<br>
+        Prova Bilancio Familiare Webapp ora! Iscriviti!
         <br><br>
-        <form id="year_month_filter">
-            <select name="years" id="years">
-                <option value="">--- Seleziona un anno ---</option>
-            </select>
-            <select name="months" id="months">
-                <option value="">--- Seleziona un mese ---</option>
-                <option value="01">Gennaio</option>
-                <option value="02">Febbraio</option>
-                <option value="03">Marzo</option>
-                <option value="04">Aprile</option>
-                <option value="05">Maggio</option>
-                <option value="06">Giugno</option>
-                <option value="07">Luglio</option>
-                <option value="08">Agosto</option>
-                <option value="09">Settembre</option>
-                <option value="10">Ottobre</option>
-                <option value="11">Novembre</option>
-                <option value="12">Dicembre</option>
-            </select>
-            <input type="submit" value="Filtra" />
-        </form><br>
-        <form id="expense_search">
-            <label for="expense_search_text">Cerca spese:</label>
-            <input type="text" name="expense_search_text" id="expense_search_text">
-            <input type="submit" value="Cerca">
+        <div class="container text-center">
+            <form id="year_month_filter" class="row gap-3">
+                <select name="years" id="years" class="form-select col">
+                    <option value="">--- Seleziona un anno ---</option>
+                </select>
+                <select name="months" id="months" class="form-select col">
+                    <option value="">--- Seleziona un mese ---</option>
+                    <option value="01">Gennaio</option>
+                    <option value="02">Febbraio</option>
+                    <option value="03">Marzo</option>
+                    <option value="04">Aprile</option>
+                    <option value="05">Maggio</option>
+                    <option value="06">Giugno</option>
+                    <option value="07">Luglio</option>
+                    <option value="08">Agosto</option>
+                    <option value="09">Settembre</option>
+                    <option value="10">Ottobre</option>
+                    <option value="11">Novembre</option>
+                    <option value="12">Dicembre</option>
+                </select>
+                <input type="submit" value="Filtra" class="btn btn-primary col-md-2" />
+            </form>
+        </div><br>
+        <form id="expense_search" class="row g-3 gap-3 align-items-center">
+            <label for="expense_search_text" class="col-auto">Cerca spese:</label>
+            <input type="text" name="expense_search_text" class="input-group-text col-auto" placeholder="Cerca qualsiasi cosa..." id="expense_search_text">
+            <input type="submit" value="Cerca" class="btn btn-primary col-auto">
         </form>
-        <table id="expenses_list">
+        <br>
+        <table id="expenses_list" class="table table-striped table-bordered">
             <thead>
                 <tr>
                     <th>Data</th>
@@ -64,11 +90,14 @@
                     <th>Pagato da</th>
                 </tr>
             </thead>
-            <tbody id="expenses_list_body">
+            <tbody id="expenses_list_body" class="table-group-divider">
 
             </tbody>
         </table>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

@@ -115,6 +115,8 @@ app.get("/api/restricted", verify, (req, res) => {
   });
 });
 
+// API AND HTML PAGES FETCHING
+
 // GET /api/budget/ - logged user's expenses
 app.get("/api/budget", verify, async (req, res) => {
   const client = new MongoClient(uri);

@@ -66,10 +66,11 @@ getExpense().then((expense) => {
   description.innerText = expense.description;
   category.innerText = expense.category;
   total_cost.innerText = expense.total_cost;
-  users.innerText = "";
+  users.innerHTML = "";
   Object.keys(expense.users).forEach((element) => {
-    users.innerText += element + ": " + expense.users[element] + " ";
+    users.innerHTML += element + ": " + expense.users[element] + "<br />";
   });
+  users.innerHTML = users.innerHTML.substring(0, users.innerHTML.length - 1);
   host.innerText = expense.host;
   table.appendChild(tr);
   tr.appendChild(date);

@@ -3,10 +3,40 @@
 
 <head>
     <title>Aggiungi Spesa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="../assets/js/createExpense.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
 </head>
 
 <body>
+    <nav id="navbar" class="navbar fixed-top navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/auth/signin">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/auth/signup">Registrati</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/budget/whoami">Profilo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/create-expense">Crea Spesa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">Logout (TODO)</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <nav id="navbar-logged" class="navbar fixed-top navbar-expand-lg bg-body-tertiary" style="display: none;">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarLoggedSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/budget/whoami">Profilo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/create-expense">Crea Spesa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/">Logout (TODO)</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div id="body_div" class="container-xl">
     <form id="create_expense_form">
         <label for="date">Data:</label>
         <input type="date" name="date" id="date" /><br>
@@ -19,9 +49,9 @@
         <div id="users">
             <div id="user_info_1">
                 <label for="user1">Utente:</label>
-                <input type="text" list="userlist" name="user1" id="user1"/>
+                <input type="text" list="userlist" name="user1" id="user1" />
                 <label for="part1">Parte di spesa dell'utente:</label>
-                <input type="number" step="0.01" name="part1" id="part1"/><br>
+                <input type="number" step="0.01" name="part1" id="part1" /><br>
             </div>
         </div>
         <datalist id="userlist">
@@ -32,12 +62,16 @@
     </form>
     <br>
     <a href="/">GO BACK HOME</a>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+        </div>
 </body>
 <script>
     // This script handles the dynamic behavior of the users div's children
     let user_info_1 = document.getElementById("user_info_1")
     // When user_info_1 is clicked on, it creates a new clone of itself
-    user_info_1.addEventListener("input", function() {new_user_info(2)}, {once : true})
+    user_info_1.addEventListener("input", function () { new_user_info(2) }, { once: true })
     // user_info_1 begins with the current user's username
     getUser().then(current_user => {
         user_info_1.children[1].setAttribute("value", current_user.username);
@@ -49,7 +83,7 @@
     });
 
     function new_user_info(i) {
-        const user_info_id = 'user_info_' + (i-1);
+        const user_info_id = 'user_info_' + (i - 1);
         let el = document.getElementById(user_info_id);
         let clone = el.cloneNode(true);
         el.after(clone);
@@ -64,7 +98,7 @@
         clone.children[3].name = "part" + i;
         clone.children[3].setAttribute("value", "");
         clone.children[3].value = "";
-        clone.addEventListener("input", function() {new_user_info(i+1)}, {once : true})
+        clone.addEventListener("input", function () { new_user_info(i + 1) }, { once: true })
     }
 
     // Gets from api the current user
@@ -74,4 +108,5 @@
         return user;
     }
 </script>
+
 </html>
