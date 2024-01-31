@@ -5,7 +5,7 @@ let current_username = "";
 
 // Shows the details of the current user on a table
 getUser().then((user) => {
-  const table = document.getElementById("user_table");
+  const table = document.getElementById("user_table_body");
   const tr = document.createElement("tr");
   const username = document.createElement("td");
   const name = document.createElement("td");

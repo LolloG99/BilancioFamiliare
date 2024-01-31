@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Register</title>
+    <title>Registrati • Bilancio Familiare</title>
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> use bootstrap via CDN-->
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" /> <!-- Bootstrap CSS -->
@@ -36,21 +36,29 @@
             </div>
         </div>
     </nav>
-    <div id="body_div" class="container-xl">
-        <form id="register_form" action="/api/auth/signup" method="post">
-            <label for="username">Username:</label>
-            <input type="text" name="username" id="username" /><br>
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password" /><br>
-            <label for="name">Name:</label>
-            <input type="text" name="name" id="name" /><br>
-            <label for="surname">Surname:</label>
-            <input type="text" name="surname" id="surname" /><br>
-            <input type="submit" value="Sign up!" />
+    <div id="body_div" class="container-fluid row text-center">
+        <h1 class="container text-center">Bilancio Familiare Webapp</h1>
+        <div class="col"></div>
+        <form id="register_form" action="/api/auth/signup" method="post" class="col" style="margin-top: 50px;">
+            <div class="mb-4">
+            <label for="username" class="col-form-label">Username:</label>
+            <input type="text" class="form-control" name="username" id="username" /><br>
+            </div>
+            <div class="mb-4">
+            <label for="password" class="col-form-label">Password:</label>
+            <input type="password" class="form-control" name="password" id="password" /><br>
+            </div>
+            <div class="mb-4">
+            <label for="name" class="col-form-label">Name:</label>
+            <input type="text" class="form-control" name="name" id="name" /><br>
+            </div>
+            <div class="mb-4">
+            <label for="surname" class="col-form-label">Surname:</label>
+            <input type="text" class="form-control" name="surname" id="surname" /><br>
+            </div>
+            <input type="submit" value="Sign up!" class="btn btn-primary mb-4"/>
         </form>
-        <br><br>
-
-        <a href="/">TORNA A CASA</a><br>
+        <div class="col"></div>
     </div>
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
