@@ -59,12 +59,12 @@
             <div id="users" class="col-12">
                 <div id="user_info_1" class="row">
                     <div class="col-md-6">
-                        <label for="user1" class="col-form-label">Utente:</label>
-                        <input type="text" list="userlist" class="form-control" name="user1" id="user1" />
+                        <label for="user1" class="user_info_element col-form-label">Utente:</label>
+                        <input type="text" list="userlist" class="user_info_element form-control" name="user1" id="user1" />
                     </div>
                     <div class="col-md-6">
-                        <label for="part1" class="col-form-label">Parte di spesa dell'utente:</label>
-                        <input type="number" step="0.01" class="form-control" name="part1" id="part1" /><br>
+                        <label for="part1" class="user_info_element col-form-label">Parte di spesa dell'utente:</label>
+                        <input type="number" step="0.01" class="user_info_element form-control" name="part1" id="part1" /><br>
                     </div>
                 </div>
             </div>
@@ -88,12 +88,12 @@
     user_info_1.addEventListener("input", function () { new_user_info(2) }, { once: true })
     // user_info_1 begins with the current user's username
     getUser().then(current_user => {
-        user_info_1.children[1].setAttribute("value", current_user.username);
+        user_info_1.querySelectorAll(`.user_info_element`)[1].setAttribute("value", current_user.username);
     });
     // user_info_1 updates dynamically its part when total_cost is modified
     let total_cost = document.getElementById("total_cost")
     total_cost.addEventListener("input", () => {
-        user_info_1.children[3].setAttribute("value", total_cost.value);
+        user_info_1.querySelectorAll(`.user_info_element`)[3].setAttribute("value", total_cost.value);
     });
 
     function new_user_info(i) {
@@ -102,16 +102,17 @@
         let clone = el.cloneNode(true);
         el.after(clone);
         clone.id = 'user_info_' + i;
-        clone.children[0].htmlFor = "user" + i; // Label user
-        clone.children[1].id = "user" + i; // Textinput user
-        clone.children[1].name = "user" + i;
-        clone.children[1].setAttribute("value", "");
-        clone.children[1].value = "";
-        clone.children[2].htmlFor = "part" + i; // Label part
-        clone.children[3].id = "part" + i; // Numberinput part
-        clone.children[3].name = "part" + i;
-        clone.children[3].setAttribute("value", "");
-        clone.children[3].value = "";
+        clone.querySelectorAll(`.user_info_element`)[0].htmlFor = "user" + i; // Label user
+        clone.querySelectorAll(`.user_info_element`)[0].htmlFor = "user" + i; // Label user
+        clone.querySelectorAll(`.user_info_element`)[1].id = "user" + i; // Textinput user
+        clone.querySelectorAll(`.user_info_element`)[1].name = "user" + i;
+        clone.querySelectorAll(`.user_info_element`)[1].setAttribute("value", "");
+        clone.querySelectorAll(`.user_info_element`)[1].value = "";
+        clone.querySelectorAll(`.user_info_element`)[2].htmlFor = "part" + i; // Label part
+        clone.querySelectorAll(`.user_info_element`)[3].id = "part" + i; // Numberinput part
+        clone.querySelectorAll(`.user_info_element`)[3].name = "part" + i;
+        clone.querySelectorAll(`.user_info_element`)[3].setAttribute("value", "");
+        clone.querySelectorAll(`.user_info_element`)[3].value = "";
         clone.addEventListener("input", function () { new_user_info(i + 1) }, { once: true })
     }
 

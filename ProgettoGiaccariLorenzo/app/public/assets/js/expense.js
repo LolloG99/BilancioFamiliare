@@ -28,16 +28,16 @@ function new_user_info(i, user, part, clonable) {
   let el = document.getElementById(user_info_id);
   let clone = el.cloneNode(true);
   clone.id = "user_info_" + i;
-  clone.children[0].htmlFor = "user" + i; // Label user
-  clone.children[1].id = "user" + i; // Textinput user
-  clone.children[1].name = "user" + i;
-  clone.children[1].setAttribute("value", user);
-  clone.children[1].value = user;
-  clone.children[2].htmlFor = "part" + i; // Label part
-  clone.children[3].id = "part" + i; // Numberinput part
-  clone.children[3].name = "part" + i;
-  clone.children[3].setAttribute("value", part);
-  clone.children[3].value = part;
+  clone.querySelectorAll(`.user_info_element`)[0].htmlFor = "user" + i; // Label user
+  clone.querySelectorAll(`.user_info_element`)[1].id = "user" + i; // Textinput user
+  clone.querySelectorAll(`.user_info_element`)[1].name = "user" + i;
+  clone.querySelectorAll(`.user_info_element`)[1].setAttribute("value", user);
+  clone.querySelectorAll(`.user_info_element`)[1].value = user;
+  clone.querySelectorAll(`.user_info_element`)[2].htmlFor = "part" + i; // Label part
+  clone.querySelectorAll(`.user_info_element`)[3].id = "part" + i; // Numberinput part
+  clone.querySelectorAll(`.user_info_element`)[3].name = "part" + i;
+  clone.querySelectorAll(`.user_info_element`)[3].setAttribute("value", part);
+  clone.querySelectorAll(`.user_info_element`)[3].value = part;
   el.after(clone);
   if (clonable) {
     // Not clonable when created in the beginning with getExpense, but it is if created afterwards
@@ -54,7 +54,7 @@ function new_user_info(i, user, part, clonable) {
 // Shows the details of a single expense on a table and fills the modify_form
 getExpense().then((expense) => {
   // Shows the details of a single expense on a table
-  const table = document.getElementById("expense_table");
+  const table = document.getElementById("expense_table_body");
   const tr = document.createElement("tr");
   const date = document.createElement("td");
   const description = document.createElement("td");

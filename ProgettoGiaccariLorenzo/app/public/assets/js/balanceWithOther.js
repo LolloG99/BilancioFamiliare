@@ -19,7 +19,7 @@ getBalanceId().then((balance) => {
 
 function addBalanceRow(expense) {
   // Shows the details of a single expense on a table
-  const table = document.getElementById("balance_table");
+  const table = document.getElementById("balance_table_body");
   const tr = document.createElement("tr");
   const date = document.createElement("td");
   const description = document.createElement("td");

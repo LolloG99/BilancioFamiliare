@@ -19,9 +19,9 @@ getUsersQuery("").then((users) => {
 // sets current_username and user_info_1's name field's value both to the current user's username
 getUser().then((user) => {
   current_username = user.username;
-  document
-    .getElementById("user_info_1")
-    .children[1].setAttribute("value", current_username);
+  //document.getElementById("user_info_1").getElementsByClassNames("user_info_element")[1].setAttribute("value", current_username);
+  user_info_1.querySelectorAll(`.user_info_element`)[1].setAttribute("value", current_username);
+
 });
 
 // At submit, takes data and fetches api
