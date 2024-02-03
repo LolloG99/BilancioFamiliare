@@ -24,7 +24,7 @@ app.use(
   })
 );
 
-// LOGIN, SIGNUP, VERIFY
+// LOGIN, SIGNUP, LOGOUT, VERIFY
 
 // Register page
 app.get("/auth/signup", async (req, res) => {
@@ -57,15 +57,14 @@ app.post("/api/auth/signup", async (req, res) => {
     if (!same_user) {
       const db_user = await users.collection("users").insertOne(new_user);
       req.session.user = new_user;
-      res.redirect("/api/restricted");
+      res.redirect("/");
     } else {
       res.statusMessage = "username already taken";
-      res
-        .status(403)
-        .send();
+      res.status(403).send();
     }
   } catch (err) {
-    console.log(err);
+    // On failed register, it refreshes the page
+    res.redirect("/auth/signup");
   }
 });
 
@@ -94,10 +93,18 @@ app.post("/api/auth/signin", async (req, res) => {
     //"if db_user" because if db_user is null code crashes
     //generateAccessToken(db_user); //for jwt approach
     req.session.user = db_user;
-    res.redirect("/index.html");
+    res.redirect("/");
   } else {
-    res.status(403).send("Non autenticato :(");
+    // On failed login, it refreshes the page
+    res.redirect("/auth/signin");
+    //res.status(403).send("Non autenticato :(");
   }
+});
+
+// Actual logout
+app.post("/api/auth/logout", async (req, res) => {
+    req.session.destroy();
+    res.json({ message: "Logout successful!" });
 });
 
 // Authentication

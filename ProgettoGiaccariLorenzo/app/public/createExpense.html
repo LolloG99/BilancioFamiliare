@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" /> <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
     <script src="../assets/js/createExpense.js" defer></script>
+    <script src="../assets/js/navbar.js" defer></script>
 </head>
 
 <body>
@@ -18,9 +19,6 @@
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="/auth/signin">Login</a></li>
                     <li class="nav-item"><a class="nav-link" href="/auth/signup">Registrati</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/budget/whoami">Profilo</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/create-expense">Crea Spesa</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/">Logout (TODO)</a></li>
                 </ul>
             </div>
         </div>
@@ -32,7 +30,7 @@
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="/budget/whoami">Profilo</a></li>
                     <li class="nav-item"><a class="nav-link" href="/create-expense">Crea Spesa</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/">Logout (TODO)</a></li>
+                    <li class="nav-item"><a class="nav-link" id="logout_link" href="/api/auth/logout">Logout</a></li>
                 </ul>
             </div>
         </div>
