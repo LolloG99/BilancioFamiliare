@@ -21,6 +21,9 @@
 <body>
     <nav id="navbar" class="navbar fixed-top navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
@@ -32,6 +35,9 @@
     </nav>
     <nav id="navbar-logged" class="navbar fixed-top navbar-expand-lg bg-body-tertiary" style="display: none;">
         <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLoggedSupportedContent" aria-controls="navbarLoggedSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button> 
             <div class="collapse navbar-collapse" id="navbarLoggedSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
@@ -44,7 +50,8 @@
     </nav>
     <div id="body_div" class="container-xl">
         <h1 class="container text-center">Bilancio Familiare Webapp</h1>
-        Ecco qui le tue info!<br>
+        <h2>Informazioni Personali</h2>
+        Ecco qui le tue informazioni personali! Username, nome e cognome.<br>
         <table id="user_table" class="table table-striped table-bordered">
             <thead>
                 <tr>
@@ -56,12 +63,15 @@
             <tbody id="user_table_body" class="table-group-divider"></tbody>
         </table>
         <br>
+        <h2>Ricerca Utente</h2>
+        Cerca gli utenti per username, nome o cognome! Apparirà una tabella con i risultati. Clicca su uno username
+        per visualizzare il dettaglio bilancio tra te e quell'utente.
         <form id="user_search" class="row g-3 gap-3 align-items-center">
             <label for="user_search_text" class="col-auto">Cerca utenti:</label>
             <input type="text" name="user_search_text" class="input-group-text col-auto"
             placeholder="Cerca qualsiasi cosa..." id="user_search_text">
             <input type="submit" value="Cerca" class="btn btn-primary col-auto">
-        </form>
+        </form><br>
         <table id="user_search_table" class="table table-striped table-bordered" style="display: none;">
             <thead>
                 <tr>
@@ -74,6 +84,11 @@
 
             </tbody>
         </table><br>
+        <h2>Debito nei confronti degli altri utenti</h2>
+        Questa tabella contiene le informazioni riguardo ai debiti che gli altri utenti hanno
+        nei tuoi confronti. Un debito positivo significa che l'utente ti deve dei soldi; un debito negativo
+        significa che tu devi quell'ammontare a quell'utente. Clicca sullo username per visualizzare i dettagli
+        del bilancio con quell'utente.
         <table id="balance_table" class="table table-striped table-bordered">
             <thead>
                 <tr>
@@ -84,11 +99,12 @@
             <tbody id="balance_table_body" class="table-group-divider">
 
             </tbody>
-        </table>
-
-        <br>
-        <br>
-
+        </table><br>
+        <h2>Lista e Ricerca Spese</h2>
+        La seguente tabella contiene tutte le spese di cui fai parte. Cliccare sulla data ti
+        porterà a visualizzare i dettagli della corrispondente spesa.<br>
+        Le spese possono essere filtrate per anno oppure per mese+anno, oppure puoi direttamente utilizzare il campo
+        di ricerca sottostante.<br>
         <div class="container text-center">
             <form id="year_month_filter" class="row gap-3">
                 <select name="years" id="years" class="form-select col">

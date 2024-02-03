@@ -20,6 +20,9 @@
 <body>
     <nav id="navbar" class="navbar fixed-top navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
@@ -31,6 +34,9 @@
     </nav>
     <nav id="navbar-logged" class="navbar fixed-top navbar-expand-lg bg-body-tertiary" style="display: none;">
         <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLoggedSupportedContent" aria-controls="navbarLoggedSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button> 
             <div class="collapse navbar-collapse" id="navbarLoggedSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
@@ -44,6 +50,7 @@
     <div id="body_div" class="container-xl">
         <h1 class="container text-center">Bilancio Familiare Webapp</h1>
         <h2 id="h2_title"></h2>
+        Ogni riga di questa tabella si riferisce ad una spesa, di cui puoi visualizzare i dettagli cliccando sull'apposito link.<br>
         <table id="balance_table" class="table table-striped table-bordered">
             <thead>
 
