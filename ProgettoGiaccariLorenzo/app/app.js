@@ -12,7 +12,10 @@ const app = express(); // build app
 app.use(express.static(`${__dirname}/public`)); // resolve the public folder from any request
 app.use(express.urlencoded());
 app.use(express.json());
-app.use("/bootstrap", express.static(`${__dirname}/node_modules/bootstrap/dist/`)); //use bootstrap
+app.use(
+  "/bootstrap",
+  express.static(`${__dirname}/node_modules/bootstrap/dist/`)
+); //use bootstrap
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -57,7 +60,6 @@ app.post("/api/auth/signup", async (req, res) => {
     if (!same_user) {
       const db_user = await users.collection("users").insertOne(new_user);
       req.session.user = new_user;
-      res.redirect("/");
     } else {
       res.statusMessage = "username already taken";
       res.status(403).send();
@@ -85,26 +87,30 @@ app.post("/api/auth/signin", async (req, res) => {
   const client = new MongoClient(uri);
   await client.connect();
   const users = client.db("users");
-  const db_user = await users
-    .collection("users")
-    .findOne({ username: req.body.username });
+  try {
+    const db_user = await users
+      .collection("users")
+      .findOne({ username: req.body.username });
 
-  if (db_user && db_user.password === req.body.password) {
-    //"if db_user" because if db_user is null code crashes
-    //generateAccessToken(db_user); //for jwt approach
-    req.session.user = db_user;
-    res.redirect("/");
-  } else {
+    if (db_user && db_user.password === req.body.password) {
+      //"if db_user" because if db_user is null code crashes
+      //generateAccessToken(db_user); //for jwt approach
+      req.session.user = db_user;
+      res.redirect("/");
+    } else {
+      res.statusMessage = "wrong username or password";
+      res.status(403).send();
+    }
+  } catch (err) {
     // On failed login, it refreshes the page
     res.redirect("/auth/signin");
-    //res.status(403).send("Non autenticato :(");
   }
 });
 
 // Actual logout
 app.post("/api/auth/logout", async (req, res) => {
-    req.session.destroy();
-    res.json({ message: "Logout successful!" });
+  req.session.destroy();
+  res.json({ message: "Logout successful!" });
 });
 
 // Authentication
@@ -112,7 +118,9 @@ function verify(req, res, next) {
   if (req.session.user) {
     next();
   } else {
-    res.status(403).send("Non autenticato :(");
+    // If not authenticated, redirects to home
+    res.redirect("/");
+    //res.status(403).send("Non autenticato :(");
   }
 }
 
@@ -171,12 +179,12 @@ app.get("/api/budget/search", verify, async (req, res) => {
   var query = {};
   query["users." + username] = { $exists: true };
   //Match the query string with expenses' dates, descriptions, categories, total_costs and hosts
-  query["$or"] = [ 
-    { "date" : { $regex : q, $options: 'i' } },
-    { "description" : { $regex : q, $options: 'i' } },
-    { "category" : { $regex : q, $options: 'i' } },
-    { "total_cost" : { $regex : q, $options: 'i' } },
-    { "host" : { $regex : q, $options: 'i' } }
+  query["$or"] = [
+    { date: { $regex: q, $options: "i" } },
+    { description: { $regex: q, $options: "i" } },
+    { category: { $regex: q, $options: "i" } },
+    { total_cost: { $regex: q, $options: "i" } },
+    { host: { $regex: q, $options: "i" } },
   ];
 
   let expenses = await exps.collection("expenses").find(query).toArray();
@@ -340,9 +348,12 @@ app.get("/api/balance", verify, async (req, res) => {
   // A negative value means that the current user should give money to the other user
   let balance = {};
   expenses.forEach((expense) => {
-    if (expense.total_cost === "0") { // If it's a refund
-      Object.keys(expense.users).forEach((user) => { // Iter through the users (there's two of them)
-        if (user !== username) { // If it's the other user
+    if (expense.total_cost === "0") {
+      // If it's a refund
+      Object.keys(expense.users).forEach((user) => {
+        // Iter through the users (there's two of them)
+        if (user !== username) {
+          // If it's the other user
           if (!balance[user]) {
             balance[user] = 0;
           }
@@ -350,9 +361,12 @@ app.get("/api/balance", verify, async (req, res) => {
         }
       });
     } else {
-      if (expense.host === username) { // If the current user is the host
-        Object.keys(expense.users).forEach((user) => { // Iter through the users
-          if (user !== username) { // If the considered user is not the host
+      if (expense.host === username) {
+        // If the current user is the host
+        Object.keys(expense.users).forEach((user) => {
+          // Iter through the users
+          if (user !== username) {
+            // If the considered user is not the host
             if (!balance[user]) {
               balance[user] = 0;
             }
@@ -373,9 +387,12 @@ app.get("/api/balance", verify, async (req, res) => {
 // GET /balance/:id - to access the corresponding html page
 app.get("/balance/:id", verify, async (req, res) => {
   try {
-    const data = await fs.readFile(`${__dirname}/public/balanceWithOther.html`, {
-      encoding: `utf8`,
-    });
+    const data = await fs.readFile(
+      `${__dirname}/public/balanceWithOther.html`,
+      {
+        encoding: `utf8`,
+      }
+    );
     res.send(data);
   } catch (err) {
     console.log(err);
@@ -385,7 +402,7 @@ app.get("/balance/:id", verify, async (req, res) => {
 // GET /api/balance/:id - visualize give/take summary of logged user with user of chosen id
 // username is used as id because it's unique
 app.get("/api/balance/:id", verify, async (req, res) => {
-    // Copypaste of get /api/budget
+  // Copypaste of get /api/budget
   const client = new MongoClient(uri);
   await client.connect();
   const exps = client.db("expenses");
@@ -412,10 +429,10 @@ app.get("/api/users/search", verify, async (req, res) => {
   const q = req.query.q;
   var query = {};
   //Match the query string with users' usernames, names and surnames
-  query["$or"] = [ 
-    { "username" : { $regex : q, $options: 'i' } },
-    { "name" : { $regex : q, $options: 'i' } },
-    { "surname" : { $regex : q, $options: 'i' } }
+  query["$or"] = [
+    { username: { $regex: q, $options: "i" } },
+    { name: { $regex: q, $options: "i" } },
+    { surname: { $regex: q, $options: "i" } },
   ];
 
   let searched_users = await users.collection("users").find(query).toArray();

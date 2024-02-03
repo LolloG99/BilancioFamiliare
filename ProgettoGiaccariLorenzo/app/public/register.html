@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" /> <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" />
     <script src="../assets/js/navbar.js" defer></script>
+    <script src="../assets/js/register.js" defer></script>
 </head>
 
 <body>
@@ -36,25 +37,25 @@
     </nav>
     <div id="body_div" class="container-fluid row text-center">
         <h1 class="container text-center">Bilancio Familiare Webapp</h1>
-        <div class="col"></div> <!-- action="/api/auth/signup" method="post" -->
+        <div class="col"></div>
         <form id="register_form" class="col" style="margin-top: 50px;">
             <div class="mb-4">
-            <label for="username" class="col-form-label">Username:</label>
-            <input type="text" class="form-control" name="username" id="username" /><br>
+                <label for="username" class="col-form-label">Username:</label>
+                <input type="text" class="form-control" name="username" id="username" /><br>
             </div>
             <div class="mb-4">
-            <label for="password" class="col-form-label">Password:</label>
-            <input type="password" class="form-control" name="password" id="password" /><br>
+                <label for="password" class="col-form-label">Password:</label>
+                <input type="password" class="form-control" name="password" id="password" /><br>
             </div>
             <div class="mb-4">
-            <label for="name" class="col-form-label">Name:</label>
-            <input type="text" class="form-control" name="name" id="name" /><br>
+                <label for="name" class="col-form-label">Nome:</label>
+                <input type="text" class="form-control" name="name" id="name" /><br>
             </div>
             <div class="mb-4">
-            <label for="surname" class="col-form-label">Surname:</label>
-            <input type="text" class="form-control" name="surname" id="surname" /><br>
+                <label for="surname" class="col-form-label">Cognome:</label>
+                <input type="text" class="form-control" name="surname" id="surname" /><br>
             </div>
-            <input type="submit" value="Sign up!" class="btn btn-primary mb-4"/>
+            <input type="submit" value="Sign up!" class="btn btn-primary mb-4" />
         </form>
         <div class="col"></div>
     </div>
@@ -63,21 +64,5 @@
         crossorigin="anonymous"></script> use bootstrap via CDN -->
     <script language="javascript" src="../bootstrap/js/bootstrap.min.js"></script> <!-- Bootstrap JS -->
 </body>
-<script>
-    document.getElementById("register_form").addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const response = await fetch(`/api/auth/signup`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username, password, name, surname }),
-        });
-        if (response.statusText === "username already taken") {
-            alert("Username già presente, per favore sceglierne un altro");
-            return;
-        }
-    });
-</script>
 
 </html>
