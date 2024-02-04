@@ -114,13 +114,17 @@ app.post("/api/auth/logout", async (req, res) => {
 });
 
 // Authentication
-function verify(req, res, next) {
+async function verify(req, res, next) {
   if (req.session.user) {
     next();
   } else {
     // If not authenticated, redirects to home
-    res.redirect("/");
+    //res.redirect("/");
     //res.status(403).send("Non autenticato :(");
+    const data = await fs.readFile(`${__dirname}/public/unauthenticated.html`, {
+      encoding: `utf8`,
+    });
+    res.send(data);
   }
 }
 
