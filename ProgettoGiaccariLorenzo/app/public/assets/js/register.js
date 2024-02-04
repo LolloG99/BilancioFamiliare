@@ -1,28 +1,15 @@
 // .js that handles the register process
 
-document
-  .getElementById("register_form")
-  .addEventListener("submit", async (event) => {
+const register_form = document.getElementById("register_form");
+
+register_form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const username = document.getElementById("username").value.trim();
-    if (!username) {
-      alert("Per favore, inserire uno username");
-      return;
-    }
     const password = document.getElementById("password").value.trim();
-    if (!password) {
-      alert("Per favore, inserire una password");
-      return;
-    }
     const name = document.getElementById("name").value.trim();
-    if (!name) {
-      alert("Per favore, inserire un nome");
-      return;
-    }
     const surname = document.getElementById("surname").value.trim();
-    if (!surname) {
-      alert("Per favore, inserire un cognome");
-      return;
+    if (!username || !password || !name || !surname) {
+      return; // If one of the fields is void, the function stops and lets bootstrap validation do its job
     }
     const response = await fetch(`/api/auth/signup`, {
       method: "POST",
@@ -43,3 +30,13 @@ document
       return;
     }
   });
+
+// Code from bootstrap docs for custom validation style and messages
+// Apply custom Bootstrap validation styles to the form and prevent submission
+register_form.addEventListener("submit", (event) => {
+  if (!register_form.checkValidity()) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  register_form.classList.add("was-validated");
+});

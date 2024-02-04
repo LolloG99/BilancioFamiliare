@@ -14,9 +14,11 @@
 <body>
     <nav id="navbar" class="navbar fixed-top navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-              </button>          
+            </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
@@ -28,9 +30,11 @@
     </nav>
     <nav id="navbar-logged" class="navbar fixed-top navbar-expand-lg bg-body-tertiary" style="display: none;">
         <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLoggedSupportedContent" aria-controls="navbarLoggedSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarLoggedSupportedContent" aria-controls="navbarLoggedSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-              </button>          
+            </button>
             <div class="collapse navbar-collapse" id="navbarLoggedSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
@@ -44,14 +48,20 @@
     <div id="body_div" class="container-fluid row text-center">
         <h1 class="container text-center">Bilancio Familiare Webapp</h1>
         <div class="col"></div>
-        <form id="login_form" class="col" style="margin-top: 50px;">
+        <form id="login_form" class="col needs-validation" style="margin-top: 50px;" novalidate>
             <div class="mb-4">
                 <label for="username" class="col-form-label">Username:</label>
-                <input type="text" class="form-control" name="username" id="username" />
+                <input type="text" class="form-control" name="username" id="username" required />
+                <div class="invalid-feedback">
+                    Per favore, inserire uno username
+                </div>
             </div>
             <div class="mb-4">
                 <label for="password" class="col-form-label">Password:</label>
-                <input type="password" class="form-control" name="password" id="password" />
+                <input type="password" class="form-control" name="password" id="password" required />
+                <div class="invalid-feedback">
+                    Per favore, inserire una password
+                </div>
             </div>
             <input type="submit" value="Login" class="btn btn-primary mb-4" />
         </form>

@@ -155,9 +155,8 @@ modify_expense_form.addEventListener("submit", async (event) => {
   const description = document.getElementById("description").value.trim();
   const category = document.getElementById("category").value.trim();
   const total_cost = document.getElementById("total_cost").value.trim();
-  if (!date) {
-    alert("Per favore, inserire una data");
-    return;
+  if (!date || !category || !total_cost) {
+    return; // If one of the fields is void, the function stops and lets bootstrap validation do its job
   }
 
   // Creates users and makes sure the sum of all parts is equal to total_cost
@@ -214,6 +213,16 @@ modify_expense_form.addEventListener("submit", async (event) => {
     window.location.replace(`/budget/${year}/${month}/${id}`);
     return;
   }
+});
+
+// Code from bootstrap docs for custom validation style and messages
+// Apply custom Bootstrap validation styles to the form and prevent submission
+modify_expense_form.addEventListener("submit", (event) => {
+  if (!modify_expense_form.checkValidity()) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  modify_expense_form.classList.add("was-validated");
 });
 
 // Gets from api the current user

@@ -31,9 +31,8 @@ form.addEventListener("submit", async (event) => {
   const description = document.getElementById("description").value.trim();
   const category = document.getElementById("category").value.trim();
   const total_cost = document.getElementById("total_cost").value.trim();
-  if (!date) {
-    alert("Per favore, inserire una data");
-    return;
+  if (!date || !category || !total_cost) {
+    return; // If one of the fields is void, the function stops and lets bootstrap validation do its job
   }
 
   // Creates users and makes sure the sum of all parts is equal to total_cost
@@ -90,6 +89,16 @@ form.addEventListener("submit", async (event) => {
     alert("Spesa aggiunta con successo! :)");
     return;
   }
+});
+
+// Code from bootstrap docs for custom validation style and messages
+// Apply custom Bootstrap validation styles to the form and prevent submission
+form.addEventListener("submit", (event) => {
+  if (!form.checkValidity()) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  form.classList.add("was-validated");
 });
 
 // Gets from api the current user

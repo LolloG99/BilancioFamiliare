@@ -44,22 +44,34 @@
     <div id="body_div" class="container-fluid row text-center">
         <h1 class="container text-center">Bilancio Familiare Webapp</h1>
         <div class="col"></div>
-        <form id="register_form" class="col" style="margin-top: 50px;">
+        <form id="register_form" class="col needs-validation" style="margin-top: 50px;" novalidate>
             <div class="mb-4">
                 <label for="username" class="col-form-label">Username:</label>
-                <input type="text" class="form-control" name="username" id="username" /><br>
+                <input type="text" class="form-control" name="username" id="username" required/>
+                <div class="invalid-feedback">
+                    Per favore, inserire uno username
+                </div>
             </div>
             <div class="mb-4">
                 <label for="password" class="col-form-label">Password:</label>
-                <input type="password" class="form-control" name="password" id="password" /><br>
+                <input type="password" class="form-control" name="password" id="password" required/>
+                <div class="invalid-feedback">
+                    Per favore, inserire una password
+                </div>
             </div>
             <div class="mb-4">
                 <label for="name" class="col-form-label">Nome:</label>
-                <input type="text" class="form-control" name="name" id="name" /><br>
+                <input type="text" class="form-control" name="name" id="name" required/>
+                <div class="invalid-feedback">
+                    Per favore, inserire un nome
+                </div>
             </div>
             <div class="mb-4">
                 <label for="surname" class="col-form-label">Cognome:</label>
-                <input type="text" class="form-control" name="surname" id="surname" /><br>
+                <input type="text" class="form-control" name="surname" id="surname" required/>
+                <div class="invalid-feedback">
+                    Per favore, inserire un cognome
+                </div>
             </div>
             <input type="submit" value="Sign up!" class="btn btn-primary mb-4" />
         </form>

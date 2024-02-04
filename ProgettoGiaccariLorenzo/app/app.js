@@ -118,9 +118,7 @@ async function verify(req, res, next) {
   if (req.session.user) {
     next();
   } else {
-    // If not authenticated, redirects to home
-    //res.redirect("/");
-    //res.status(403).send("Non autenticato :(");
+    // If not authenticated, redirects to unauthenticated page
     const data = await fs.readFile(`${__dirname}/public/unauthenticated.html`, {
       encoding: `utf8`,
     });
