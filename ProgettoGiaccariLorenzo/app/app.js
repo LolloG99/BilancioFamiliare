@@ -269,15 +269,11 @@ app.post("/api/budget/:year/:month", verify, async (req, res) => {
   const expenses = client.db("expenses");
 
   new_expense = {
-    //temporary
-    date: req.body.date, //'2024-01-28', //yyyy-mm-dd
-    description: req.body.description, //'A dummy expense to test code',
-    category: req.body.category, //'dinner',
-    total_cost: req.body.total_cost, //240.50, //float
-    users: req.body.users /*{
-      lollo: req.body.total_cost / 2,
-      johnci: req.body.total_cost / 2,
-    },*/,
+    date: req.body.date,
+    description: req.body.description,
+    category: req.body.category,
+    total_cost: req.body.total_cost,
+    users: req.body.users,
     host: req.session.user.username,
   };
 
@@ -300,7 +296,6 @@ app.put("/api/budget/:year/:month/:id", verify, async (req, res) => {
   const filter = { _id: new ObjectId(req.params.id) };
   const updateEl = {
     $set: {
-      //description: "This description has been modified successfully!",
       date: req.body.date,
       description: req.body.description,
       category: req.body.category,

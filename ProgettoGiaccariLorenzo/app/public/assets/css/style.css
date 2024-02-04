@@ -6,34 +6,3 @@ body {
 #body_div {
 	margin-top: 8ex;
 }
-
-/* 
-#navbar ul {
-	position: fixed;
-	display: block;
-  	top: 0;
-	left: 0;
-  	width: 100%;
-	margin: 0;
-	padding: 0;
-	background-color: rgb(58, 147, 242);
-	border-bottom: 1px solid rgb(232, 240, 249);
-}
-
-li {
-	display: inline-block;
-}
-
-li a {
-	display: block;
-	color: black;
-	text-align: center;
-	padding: 14px 16px;
-	text-decoration: none;
-  }
-*/
-  /* Change the link color on hover */
-/*
-li a:hover {
-	background-color: rgb(157, 196, 237);
-  } */

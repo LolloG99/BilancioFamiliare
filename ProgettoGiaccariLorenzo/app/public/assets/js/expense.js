@@ -6,11 +6,17 @@ const parts = url.split("/");
 const id = parts[parts.length - 1];
 const m = parts[parts.length - 2];
 const y = parts[parts.length - 3];
+
 let current_username = "";
 let current_expense_host = "";
 // Array with all usernames to check wether a user that is part of the new expense being created exists in the users database
 let all_usernames = [];
 
+const modify_expense_form = document.getElementById("modify_expense_form");
+const modify_button = document.getElementById("modify_button");
+const delete_button = document.getElementById("delete_button");
+
+// Gets all users, saves their usernames and puts them as options for the html's userlist
 getUsersQuery("").then((users) => {
   userlist = document.getElementById("userlist");
   users.forEach((user) => {
@@ -84,8 +90,8 @@ getExpense().then((expense) => {
     current_username = user.username;
     current_expense_host = expense.host;
     if (current_username === current_expense_host) {
-      document.getElementById("modify_button").style.display = "";
-      document.getElementById("delete_button").style.display = "";
+      modify_button.style.display = "";
+      delete_button.style.display = "";
     }
   });
   // Pre-fill the modify form
@@ -114,6 +120,12 @@ getExpense().then((expense) => {
   new_user_info(i, "", "", true);
 });
 
+// When the modify_button is clicked, it must display the form_modify_expense
+modify_button.addEventListener("click", (event) => {
+    event.preventDefault();
+    modify_expense_form.style.display = '';
+});
+
 // Gets from api a specific expense using id
 async function getExpense() {
   const response = await fetch(`/api/budget/${y}/${m}/${id}`);
@@ -122,7 +134,6 @@ async function getExpense() {
 }
 
 // Calls api's delete
-const delete_button = document.getElementById("delete_button");
 delete_button.addEventListener("click", async (event) => {
   event.preventDefault();
   if (current_username !== current_expense_host) {
@@ -136,7 +147,7 @@ delete_button.addEventListener("click", async (event) => {
     });
     if (response.ok) {
       alert("Spesa eliminata con successo! :)");
-      window.location.replace("/");
+      window.location.replace("/budget/whoami");
     } else {
       alert("Ops! Qualcosa è andato storto");
     }
@@ -144,7 +155,6 @@ delete_button.addEventListener("click", async (event) => {
 });
 
 // Calls api's put
-const modify_expense_form = document.getElementById("modify_expense_form");
 modify_expense_form.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (current_username !== current_expense_host) {

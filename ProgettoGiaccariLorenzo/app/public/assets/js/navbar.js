@@ -2,7 +2,7 @@
 
 getUser().then((user) => {
   if (user.username) {
-    //if the user has a username, ie, it's not empty, ie, it's logged
+    // if the user has a username, ie, it's not empty, ie, it's logged
     // hide the non-logged navbar and show the logged one
     document.getElementById("navbar").style.display = "none";
     document.getElementById("navbar-logged").style.display = "";

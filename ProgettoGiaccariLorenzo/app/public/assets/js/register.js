@@ -2,6 +2,7 @@
 
 const register_form = document.getElementById("register_form");
 
+// Use api's signup POST
 register_form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const username = document.getElementById("username").value.trim();

@@ -2,6 +2,7 @@
 
 const login_form = document.getElementById("login_form")
 
+// Use api's signin POST
 login_form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const username = document.getElementById("username").value.trim();

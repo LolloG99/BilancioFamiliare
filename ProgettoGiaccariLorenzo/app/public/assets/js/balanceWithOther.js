@@ -6,11 +6,13 @@ const parts = url.split("/");
 const other_user = parts[parts.length - 1];
 let current_user = ""; // username of the current user
 
+// Construct h2_title with the other_user
 document.getElementById("h2_title").innerText = "Dettagli bilancio tra te e " + other_user; 
 getUser().then((user) => {
     current_user = user.username;
 });
 
+// Build balance table
 getBalanceId().then((balance) => {
   balance.forEach((expense) => {
     addBalanceRow(expense);
@@ -55,16 +57,16 @@ function addBalanceRow(expense) {
   tr.appendChild(details_link);
 }
 
-// Gets from api the expenses needed to visualize details of the balance between the current user and the other user
-async function getBalanceId() {
-  const response = await fetch(`/api/balance/${other_user}`);
-  const balance = await response.json();
-  return balance;
-}
-
 // Gets from api the current user
 async function getUser() {
   const response = await fetch(`/api/budget/whoami`);
   const user = await response.json();
   return user;
+}
+
+// Gets from api the expenses needed to visualize details of the balance between the current user and the other user
+async function getBalanceId() {
+  const response = await fetch(`/api/balance/${other_user}`);
+  const balance = await response.json();
+  return balance;
 }
