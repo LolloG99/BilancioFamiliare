@@ -60,6 +60,7 @@ app.post("/api/auth/signup", async (req, res) => {
     if (!same_user) {
       const db_user = await users.collection("users").insertOne(new_user);
       req.session.user = new_user;
+      res.json({ message: "Signup successful!" });
     } else {
       res.statusMessage = "username already taken";
       res.status(403).send();

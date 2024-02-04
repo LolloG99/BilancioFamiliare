@@ -126,7 +126,7 @@ form.addEventListener("submit", async (event) => {
     return;
   } else {
     alert("Spesa aggiunta con successo! :)");
-    return;
+    window.location.replace("/create-expense");
   }
 });
 
