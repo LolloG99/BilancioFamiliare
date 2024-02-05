@@ -437,6 +437,180 @@ app.get("/api/users/search", verify, async (req, res) => {
   res.json(searched_users);
 });
 
+// DEMO DATABASE CREATION
+
+// POST /api/initiate_demo - creates and fills the users and expenses databases with an example to show off the
+// webapp's capabilities
+app.post("/api/initiate_demo", async (req, res) => {
+  const client = new MongoClient(uri);
+  await client.connect();
+  const users = client.db("users");
+  const expenses = client.db("expenses");
+
+  // Fill users with four users: sommo_poeta, orlando, certaldese1313 and Teatrante.
+  let new_user = {
+    username: "sommo_poeta",
+    password: "pass",
+    name: "Dante",
+    surname: "Alighieri",
+  };
+  await users.collection("users").insertOne(new_user);
+
+  new_user = {
+    username: "orlando",
+    password: "pass",
+    name: "Ludovico",
+    surname: "Ariosto",
+  };
+  await users.collection("users").insertOne(new_user);
+
+  new_user = {
+    username: "certaldese1313",
+    password: "pass",
+    name: "Giovanni",
+    surname: "Boccaccio",
+  };
+  await users.collection("users").insertOne(new_user);
+
+  new_user = {
+    username: "Teatrante",
+    password: "pass",
+    name: "Carlo",
+    surname: "Goldoni",
+  };
+  await users.collection("users").insertOne(new_user);
+
+  // Fill expenses with eight expenses.
+  // expense 1
+  let new_expense = {
+    date: "2023-12-21",
+    description: "Rimborso ad Ariosto",
+    category: "Rimborso",
+    total_cost: "0",
+    users: { Teatrante: "7.93", orlando: "-7.93" },
+    host: "Teatrante",
+  };
+  await expenses.collection("expenses").insertOne(new_expense);
+
+  // expense 2
+  new_expense = {
+    date: "2024-01-01",
+    description: "Capodanno da paura con gli altri poeti",
+    category: "Festa",
+    total_cost: "120",
+    users: {
+      orlando: "50",
+      sommo_poeta: "10",
+      certaldese1313: "10",
+      Teatrante: "50",
+    },
+    host: "orlando",
+  };
+  await expenses.collection("expenses").insertOne(new_expense);
+
+  // expense 3
+  new_expense = {
+    date: "2024-01-20",
+    description: "Rimborso a Dante",
+    category: "Rimborso",
+    total_cost: "0",
+    users: {
+      orlando: "20",
+      sommo_poeta: "-20",
+    },
+    host: "orlando",
+  };
+  await expenses.collection("expenses").insertOne(new_expense);
+
+  // expense 4
+  new_expense = {
+    date: "2024-02-02",
+    description: "Go-kart con gli altri!!!",
+    category: "Go-Kart",
+    total_cost: "200",
+    users: {
+      sommo_poeta: "10",
+      certaldese1313: "90",
+      orlando: "100",
+    },
+    host: "sommo_poeta",
+  };
+  await expenses.collection("expenses").insertOne(new_expense);
+
+  // expense 5
+  new_expense = {
+    date: "2024-01-28",
+    description: "Cena da Roadhouse tra i ragazzi del quattordicesimo secolo",
+    category: "Cena",
+    total_cost: "44",
+    users: {
+      sommo_poeta: "22",
+      certaldese1313: "22",
+    },
+    host: "sommo_poeta",
+  };
+  await expenses.collection("expenses").insertOne(new_expense);
+
+  // expense 6
+  new_expense = {
+    date: "2023-11-10",
+    description: "Preso il condizionatore",
+    category: "Condominio",
+    total_cost: "400.05",
+    users: {
+      certaldese1313: "304.05",
+      Teatrante: "96",
+    },
+    host: "certaldese1313",
+  };
+  await expenses.collection("expenses").insertOne(new_expense);
+
+  // expense 7
+  new_expense = {
+    date: "2024-03-02",
+    description: "Pranzo costoso con Ariosto",
+    category: "Pranzo",
+    total_cost: "100",
+    users: {
+      certaldese1313: "50",
+      orlando: "50",
+    },
+    host: "certaldese1313",
+  };
+  await expenses.collection("expenses").insertOne(new_expense);
+
+  // expense 8
+  new_expense = {
+    date: "2024-02-03",
+    description: "Ho rimborsato Ariosto offrendogli un caffé",
+    category: "Rimborso",
+    total_cost: "0",
+    users: {
+      certaldese1313: "-1.75",
+      orlando: "1.75",
+    },
+    host: "certaldese1313",
+  };
+  await expenses.collection("expenses").insertOne(new_expense);
+
+  demo_flag = false;
+  res.status(201).json({ message: "Demo initiated successfully! :)" });
+});
+
+// GET /api/demo_flag - returns true if the users database is empty (probably because it doesn't exists), and false otherwise.
+// This is useful for demo.js, which wants to show the demo button only when the databases are still empty
+app.get("/api/demo_flag", async (req, res) => {
+  const client = new MongoClient(uri);
+  await client.connect();
+  const users = client.db("users");
+  const searched_users = await users.collection("users").find().toArray();
+  if (searched_users.length > 0) {
+    res.json(false);
+  } else {
+    res.json(true);
+  }
+})
+
 app.listen(3000); //listen on port 3000
 
 /* //For jwt approach

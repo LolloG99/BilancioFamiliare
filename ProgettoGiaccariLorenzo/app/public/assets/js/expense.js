@@ -115,7 +115,7 @@ getExpense().then((expense) => {
     }
     i++;
   });
-  // Void last user_info, the only one that gets the cloning trigger
+  // Empty last user_info, the only one that gets the cloning trigger
   new_user_info(i, "", "", true);
 });
 
@@ -165,7 +165,7 @@ modify_expense_form.addEventListener("submit", async (event) => {
   const category = document.getElementById("category").value.trim();
   const total_cost = document.getElementById("total_cost").value.trim();
   if (!date || !category || !total_cost) {
-    return; // If one of the fields is void, the function stops and lets bootstrap validation do its job
+    return; // If one of the fields is empty, the function stops and lets bootstrap validation do its job
   }
 
   // Creates users and makes sure the sum of all parts is equal to total_cost

@@ -8,7 +8,7 @@ login_form.addEventListener("submit", async (event) => {
     const username = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value.trim();
     if (!username || !password) {
-      return; // If username or password are void, the function stops and lets bootstrap validation do its job
+      return; // If username or password are empty, the function stops and lets bootstrap validation do its job
     }
     const response = await fetch(`/api/auth/signin`, {
       method: "POST",

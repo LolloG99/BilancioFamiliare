@@ -10,7 +10,7 @@ register_form.addEventListener("submit", async (event) => {
     const name = document.getElementById("name").value.trim();
     const surname = document.getElementById("surname").value.trim();
     if (!username || !password || !name || !surname) {
-      return; // If one of the fields is void, the function stops and lets bootstrap validation do its job
+      return; // If one of the fields is empty, the function stops and lets bootstrap validation do its job
     }
     const response = await fetch(`/api/auth/signup`, {
       method: "POST",
