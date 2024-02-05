@@ -17,9 +17,11 @@
 <body>
     <nav id="navbar" class="navbar fixed-top navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-              </button>
+            </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
@@ -31,9 +33,11 @@
     </nav>
     <nav id="navbar-logged" class="navbar fixed-top navbar-expand-lg bg-body-tertiary" style="display: none;">
         <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLoggedSupportedContent" aria-controls="navbarLoggedSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarLoggedSupportedContent" aria-controls="navbarLoggedSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-              </button> 
+            </button>
             <div class="collapse navbar-collapse" id="navbarLoggedSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
                     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
@@ -46,31 +50,62 @@
     </nav>
     <div id="body_div" class="container-xl">
         <h1 class="container text-center">Bilancio Familiare Webapp</h1>
-        <div id="demo" style="display: none;"><button id="demo_button" class="btn btn-primary">Inizia la demo</button><br></div>
+        <div id="demo" style="display: none;"><button id="demo_button" class="btn btn-primary">Inizia la
+                demo</button><br></div>
+        <br>
         Bilancio familiare webapp è una webapp in grado di tenere traccia delle spese fatte dalla tua famiglia,
         dal tuo gruppo di amici, o qualunque altro gruppo! Basta iscriversi e potrete tenere traccia delle spese
         fatte e dei debiti di ogni componente del gruppo nei tuoi confronti!<br>
         Prova Bilancio Familiare Webapp subito, iscrivendosi attraverso l'apposita pagina di login!<br>
         <br>
-        <h2>Crea spese</h2>
-        Crea una spesa con facilità seguendo il link "Crea Spesa" sulla barra di navigazione.<br>
-        Inserisci data, categoria e costo totale, e scrivi se vuoi anche una descrizione della tua spesa.
-        Magari è stata una cena con gli amici, oppure un'avventura al parco divertimenti! Qualsiasi cosa sia,
-        utilizza il nostro form responsivo per tenere traccia di chi deve mettere quanto per una certa spesa!<br>
-        <br>
-        <h2>La tua personale dashboard</h2>
-        Una volta loggato, puoi accedere al tuo profilo, che ti permette di visualizzare un sacco di cose!
-        Cerca utenti e spese e visualizza i bilanci con gli altri utilizzatori di Bilancio Familiare Webapp,
-        tutto dalla stessa pagina!<br>
-        <br>
-        <h2>Dettagli dei bilanci</h2>
-        Se clicchi su un utente, potrai vedere lo storico di ogni spostamento di denaro che hai avuto con quell'utente!
-        Questo ti permetterà di tenere traccia di tutte le spese e rimborsi in maniera semplice e veloce!<br>
-        <br>
-        <h2>Visualizza dettagli spese</h2>
-        Di ogni spesa possono essere visualizzati i dettagli, con un semplice click!<br>
-        Tieni le tue spese sotto controllo con Bilancio Familiare Webapp!
-        
+        <div class="row">
+            <div class="col m-4 my-auto">
+                <h2>Crea spese</h2>
+                Crea una spesa con facilità seguendo il link "Crea Spesa" sulla barra di navigazione.<br>
+                Inserisci data, categoria e costo totale, e scrivi se vuoi anche una descrizione della tua spesa.
+                Magari è stata una cena con gli amici, oppure un'avventura al parco divertimenti! Qualsiasi cosa sia,
+                utilizza il nostro form responsivo per tenere traccia di chi deve mettere quanto per una certa
+                spesa!<br>
+                <br>
+            </div>
+            <div class="col m-4">
+                <img src="assets/img/ExampleCreateExpense.png" class="img-fluid shadow">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col m-4">
+                <img src="assets/img/ExampleProfile.png" class="img-fluid shadow">
+            </div>
+            <div class="col m-4 my-auto">
+                <h2>La tua personale dashboard</h2>
+                Una volta loggato, puoi accedere al tuo profilo, che ti permette di visualizzare un sacco di cose!
+                Cerca utenti e spese e visualizza i bilanci con gli altri utilizzatori di Bilancio Familiare Webapp,
+                tutto dalla stessa pagina!<br>
+                <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col m-4 my-auto">
+                <h2>Dettagli dei bilanci</h2>
+                Se clicchi su un utente, potrai vedere lo storico di ogni spostamento di denaro che hai avuto con
+                quell'utente!
+                Questo ti permetterà di tenere traccia di tutte le spese e rimborsi in maniera semplice e veloce!<br>
+                <br>
+            </div>
+            <div class="col m-4">
+                <img src="assets/img/ExampleBalance.png" class="img-fluid shadow">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col m-4">
+                <img src="assets/img/ExampleExpenseDetails.png" class="img-fluid shadow">
+            </div>
+            <div class="col m-4 my-auto">
+                <h2>Visualizza dettagli spese</h2>
+                Di ogni spesa possono essere visualizzati i dettagli, con un semplice click!<br>
+                Tieni le tue spese sotto controllo con Bilancio Familiare Webapp!
+            </div>
+        </div>
     </div>
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"

@@ -1,10 +1,8 @@
 const express = require("express"); //load express
-//const bootstrap = require('bootstrap'); //load bootstrap
 const bodyParser = require("body-parser");
 const fs = require("fs/promises");
 const { MongoClient, ObjectId } = require("mongodb");
 const session = require("express-session");
-//const jwt = require('jsonwebtoken'); //for jwt approach
 
 const uri = "mongodb://mongohost";
 const app = express(); // build app
@@ -95,7 +93,6 @@ app.post("/api/auth/signin", async (req, res) => {
 
     if (db_user && db_user.password === req.body.password) {
       //"if db_user" because if db_user is null code crashes
-      //generateAccessToken(db_user); //for jwt approach
       req.session.user = db_user;
       res.redirect("/");
     } else {
@@ -127,7 +124,7 @@ async function verify(req, res, next) {
   }
 }
 
-// Protected route for TEST purposes
+// Protected route for old TEST purposes
 app.get("/api/restricted", verify, (req, res) => {
   res.json({
     message: "Welcome to the protected route!",
@@ -612,50 +609,3 @@ app.get("/api/demo_flag", async (req, res) => {
 })
 
 app.listen(3000); //listen on port 3000
-
-/* //For jwt approach
-
-function generateAccessToken(user) {
-    const payload = {
-        username: user.username,
-        name: user.name,
-        surname: user.surname
-    };
-
-    const secret = 'secretkey';
-    const options = { expiresIn: '1h' };
-
-    return jwt.sign(payload, secret, options);
-}
-
-function verifyAccessToken(token) {
-    const secret = 'secretkey';
-
-    try {
-        const decoded = jwt.verify(token, secret);
-        return { success: true, data: decoded };
-    } catch (error) {
-        return { success: false, error: error.message };
-    }
-}
-
-function authenticateToken(req, res, next) {
-    //console.log("REQUEST UGUALE A ", req);
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-
-    
-
-    if (!token) {
-        return res.sendStatus(401);
-    }
-
-    const result = verifyAccessToken(token);
-
-    if (!result.success) {
-        return res.status(403).json({ error: result.error });
-    }
-
-    req.user = result.data;
-    next();
-} */
