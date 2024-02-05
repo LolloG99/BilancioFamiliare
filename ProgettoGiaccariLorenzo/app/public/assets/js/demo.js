@@ -1,3 +1,4 @@
+// .js added in index.html that handles the demo
 
 // If the users database is empty, the demo button is displayed.
 getDemoFlag().then((flag) => {

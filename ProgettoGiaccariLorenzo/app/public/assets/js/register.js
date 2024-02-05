@@ -37,7 +37,6 @@ register_form.addEventListener("submit", async (event) => {
 register_form.addEventListener("submit", (event) => {
   if (!register_form.checkValidity()) {
     event.preventDefault();
-    event.stopPropagation();
   }
   register_form.classList.add("was-validated");
 });

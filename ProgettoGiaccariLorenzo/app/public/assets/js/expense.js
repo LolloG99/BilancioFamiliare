@@ -229,7 +229,6 @@ modify_expense_form.addEventListener("submit", async (event) => {
 modify_expense_form.addEventListener("submit", (event) => {
   if (!modify_expense_form.checkValidity()) {
     event.preventDefault();
-    event.stopPropagation();
   }
   modify_expense_form.classList.add("was-validated");
 });

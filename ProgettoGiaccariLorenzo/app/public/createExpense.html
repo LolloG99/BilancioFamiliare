@@ -44,7 +44,7 @@
     </nav>
     <div id="body_div" class="container-xl">
         <h1 class="container text-center">Bilancio Familiare Webapp</h1>
-        <form id="create_expense_form" class="row g-3 needs-validation" novalidate>
+        <form id="create_expense_form" class="row g-3" novalidate>
             <div class="col-12">
                 <label for="date" class="col-form-label">Data:</label>
                 <input type="date" class="form-control" name="date" id="date" required />
@@ -67,7 +67,7 @@
                 <label for="total_cost" class="col-form-label">Costo Totale:</label>
                 <input type="number" step="0.01" class="form-control" name="total_cost" id="total_cost" required />
                 <div class="invalid-feedback">
-                    Per favore, inserire un costo totale
+                    Per favore, inserire un costo totale (numero con massimo due cifre dopo la virgola)
                 </div>
             </div>
             <div id="users" class="col-12">

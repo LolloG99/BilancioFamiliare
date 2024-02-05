@@ -34,7 +34,6 @@ login_form.addEventListener("submit", async (event) => {
 login_form.addEventListener("submit", (event) => {
   if (!login_form.checkValidity()) {
     event.preventDefault();
-    event.stopPropagation();
   }
   login_form.classList.add("was-validated");
 });
