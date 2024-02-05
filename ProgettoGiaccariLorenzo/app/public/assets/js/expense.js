@@ -97,8 +97,7 @@ getExpense().then((expense) => {
   // Pre-fill the modify form
   document.getElementById("date").setAttribute("value", expense.date); // date
   document
-    .getElementById("description")
-    .setAttribute("value", expense.description); // description
+    .getElementById("description").value = expense.description; // description
   document.getElementById("category").setAttribute("value", expense.category); // category
   document
     .getElementById("total_cost")
